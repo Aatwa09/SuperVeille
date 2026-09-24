@@ -14,10 +14,37 @@
                      Toute redistribution ou modification substantielle
                      doit conserver la mention de l'auteur d'origine.
         ────────────────────────────────────────────────────────
-        VERSION    : 2026.07 — « Fiabilité »
+        VERSION    : 2026.09 — « Assainissement »
         Devise     : « L'outil voyage, les données restent au poste. »
 
         JOURNAL DES MODIFICATIONS
+        2026.09 — Assainissement des sources
+          · Catalogue et sources par défaut refondus d'après le banc
+            d'essai du 23/09/2026 : URL corrigées (Informations Handicap.fr,
+            Cap Métiers NA), nouvelles sources vivantes ajoutées
+            (Vie-publique Lois, Alternatives Économiques, Observatoire des
+            Inégalités, L'Usine Nouvelle, ASH), sources mortes ou dormantes
+            écartées (Avise, Féd. Entreprises d'Insertion, DARES ancien flux).
+          · 3e nature « Veille sur site » : sources vivantes mais à accès
+            protégé (robots bloqués, JS/cookies requis). On ne les agrège
+            pas — on ouvre le site directement, en l'expliquant. Comble le
+            trou Formation sans forcer un flux (Canopé, France Compétences,
+            ONISEP, Vie-publique Enseignement).
+          · Signalétique « source officielle » (picto certificat) : marque
+            les institutions publiques, établissements publics et organismes
+            à mission de service public. Visible en sidebar, cartes et fiches.
+          · Filtre « Officiels uniquement » dans la revue du jour.
+        2026.08 — Relais & assainissement des sources
+          · Relais personnel (Worker Cloudflare) branché en tête de la
+            cascade de lecture des flux : domaines déjà déclarés en liste
+            blanche, pas de limite de débit publique.
+          · Cascade de lecture réduite à 3 relais (perso → rss2json →
+            allorigins). codetabs, corsproxy.io et corsfix retirés après
+            mesure : ils échouaient systématiquement (corsproxy.io a
+            restreint son offre gratuite à localhost).
+          · Centre Inffo retiré (flux éteint le 17/07/2026, « clap de fin »).
+          · Handirect renommé Handinova (nouvelle adresse handinova.fr),
+            mention « Anciennement Handirect » conservée.
         2026.07 — Fiabilité des flux
           · Cache local des flux : le dernier contenu récupéré reste
             consultable même si un relais est momentanément injoignable.
@@ -387,8 +414,13 @@
                 <div><label class="block font-semibold mb-1">Type</label>
                     <select id="sourceType" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white focus:outline-none text-sm">
                         <option value="rss">Flux RSS automatique</option>
+                        <option value="veille-site">Veille sur site (actualité vivante, accès direct)</option>
                         <option value="resource">Lien direct / Fiche Ressource</option>
                     </select></div>
+                <label class="flex items-start gap-2 cursor-pointer bg-slate-50 dark:bg-slate-900 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
+                    <input type="checkbox" id="sourceOfficiel" class="mt-0.5">
+                    <span class="text-xs"><b>Source officielle</b> — institution publique, établissement public ou organisme investi d'une mission de service public.</span>
+                </label>
                 <div><label class="block font-semibold mb-1">Catégorie</label>
                     <select id="sourceCategory" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white focus:outline-none text-sm">
                         <option value="formation">Formation &amp; Dispositifs</option>
@@ -473,7 +505,7 @@ function getSafeLocalString(k,d){try{const v=localStorage.getItem(k);return(v&&v
 // Logo Super Veille (chat de dos, fond transparent) — réutilisé header + dashboard
 const LOGO_B64 = "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";
 
-const APP_VERSION = "2026.07 — Fiabilité";
+const APP_VERSION = "2026.09 — Assainissement";
 
 const REGIONAL_CATALOG = {
     "normandie":               {label:"Normandie",              sources:[
@@ -552,22 +584,26 @@ const TOOL_FOLDERS = [
 
 // Catalogue de flux RSS fiables proposés à l'ajout (annuaire). Catégorie = celle utilisée dans l'app.
 const FEED_CATALOG = [
-    { name:"Centre Inffo (Formation Pro)",        url:"https://www.centre-inffo.fr/category/site-centre-inffo/actualites-centre-inffo/le-quotidien-de-la-formation-actualite-formation-professionnelle-apprentissage/feed",                                      category:"formation", desc:"Référence nationale sur la formation professionnelle et l'orientation." },
-    { name:"Céreq (Études & Qualifications)",     url:"https://www.cereq.fr/rss.xml",                                          category:"formation", desc:"Centre d'études et de recherches sur les qualifications et l'emploi." },
-    { name:"Service-Public (Pro)",         url:"https://www.service-public.gouv.fr/abonnements/rss/actu-actu-pro.rss",category:"droit",     desc:"Actualités officielles sur les droits liés au travail." },
-    { name:"Éditions Tissot (Droit RH)",          url:"https://www.editions-tissot.fr/actualite/feeds/droit-du-travail/last_news.atom", category:"droit", desc:"Veille juridique en droit du travail et ressources humaines." },
-    { name:"DARES (Statistiques Travail)",        url:"https://dares.travail-emploi.gouv.fr/flux-rss/etudes-et-statistiques.xml", category:"emploi", desc:"Statistiques officielles du ministère du Travail." },
-    { name:"Le Monde — Emploi",                   url:"https://www.lemonde.fr/emploi/rss_full.xml",                            category:"emploi",    desc:"Actualités emploi et monde du travail (presse généraliste)." },
-    { name:"UNML (Missions Locales)",             url:"https://www.unml.info/feed/",                                           category:"emploi",    desc:"Union nationale des Missions Locales : insertion des jeunes." },
-    { name:"FAS (Acteurs de Solidarité)",         url:"https://www.federationsolidarite.org/feed/",                            category:"inclusion", desc:"Fédération des Acteurs de la Solidarité : lutte contre l'exclusion." },
-    { name:"Handicap.gouv.fr",                    url:"https://handicap.gouv.fr/rss.xml",                                      category:"inclusion", desc:"Actualités officielles sur le handicap." },
-    { name:"Informations Handicap.fr",            url:"https://informations.handicap.fr/rss.xml",                              category:"inclusion", desc:"Portail d'information sur le handicap, l'emploi et l'accessibilité." },
-    { name:"Handirect (Emploi & Handicap)",       url:"https://www.handirect.fr/feed/",                                        category:"inclusion", desc:"Magazine emploi, accessibilité et handicap." },
-    { name:"ANLCI (Lutte Illettrisme)",           url:"https://www.anlci.gouv.fr/feed/",                                       category:"inclusion", desc:"Agence nationale de lutte contre l'illettrisme." },
-    { name:"Agefiph (Emploi & Handicap)",         url:"https://www.agefiph.fr/rss.xml",                                        category:"inclusion", desc:"Fonds pour l'insertion professionnelle des personnes handicapées : aides, dispositifs, études. Incontournable pour l'accompagnement RQTH." },
-    { name:"Ministère du Travail",                url:"https://travail-emploi.gouv.fr/feed/actualites.rss",                    category:"droit",     desc:"Actualités officielles du ministère : réglementation, dispositifs emploi, plein emploi." },
-    { name:"Féd. des Entreprises d'Insertion",    url:"https://www.lesentreprisesdinsertion.org/category/ressources/actualites/feed/",                        category:"inclusion", desc:"Réseau national des entreprises d'insertion (EI, ETTI). Actualités du secteur IAE, politiques et financements." },
-    { name:"Avise (ESS & IAE)",                   url:"https://www.avise.org/rss.xml",                                         category:"inclusion", desc:"Agence d'ingénierie de l'économie sociale et solidaire. Ressources et actualités sur l'IAE et les structures d'insertion." },
+    // Formation
+    { name:"Céreq (Études & Qualifications)",     url:"https://www.cereq.fr/rss.xml",                                          category:"formation", officiel:true,  desc:"Établissement public : études et recherches sur les qualifications et l'emploi." },
+    // Droit / Cadre légal
+    { name:"Service-Public (Pro)",                url:"https://www.service-public.gouv.fr/abonnements/rss/actu-actu-pro.rss",  category:"droit",     officiel:true,  desc:"Actualités officielles sur les droits liés au travail (DILA)." },
+    { name:"Vie-publique — Lois",                 url:"https://www.vie-publique.fr/lois-feeds.xml",                            category:"droit",     officiel:true,  desc:"Suivi officiel des lois et de la vie publique (DILA)." },
+    { name:"Éditions Tissot (Droit RH)",          url:"https://www.editions-tissot.fr/actualite/feeds/droit-du-travail/last_news.atom", category:"droit", officiel:false, desc:"Veille juridique en droit du travail et ressources humaines." },
+    // Emploi
+    { name:"Le Monde — Emploi",                   url:"https://www.lemonde.fr/emploi/rss_full.xml",                            category:"emploi",    officiel:false, desc:"Actualités emploi et monde du travail (presse généraliste)." },
+    { name:"UNML (Missions Locales)",             url:"https://www.unml.info/feed/",                                           category:"emploi",    officiel:true,  desc:"Union nationale des Missions Locales : insertion des jeunes." },
+    { name:"Alternatives Économiques",            url:"https://www.alternatives-economiques.fr/rss.xml",                       category:"emploi",    officiel:false, desc:"Analyse économique et sociale de fond, emploi et politiques publiques." },
+    { name:"Observatoire des Inégalités",         url:"https://www.inegalites.fr/spip.php?page=backend",                       category:"emploi",    officiel:false, desc:"Données et analyses indépendantes sur les inégalités (emploi, revenus, formation)." },
+    { name:"L'Usine Nouvelle",                    url:"https://www.usinenouvelle.com/rss/",                                    category:"emploi",    officiel:false, desc:"Actualité économique et industrielle : secteurs qui recrutent, mutations des métiers." },
+    // Inclusion
+    { name:"FAS (Acteurs de Solidarité)",         url:"https://www.federationsolidarite.org/feed/",                            category:"inclusion", officiel:false, desc:"Fédération des Acteurs de la Solidarité : lutte contre l'exclusion." },
+    { name:"ASH — Actualités Sociales Hebdo",     url:"https://www.ash.tm.fr/rss.xml",                                         category:"inclusion", officiel:false, desc:"La revue de référence du secteur social et médico-social." },
+    { name:"Handicap.gouv.fr",                    url:"https://handicap.gouv.fr/rss.xml",                                      category:"inclusion", officiel:true,  desc:"Actualités officielles sur le handicap." },
+    { name:"Informations Handicap.fr",            url:"https://www.handicap.fr/rss/",                                          category:"inclusion", officiel:false, desc:"Portail d'information sur le handicap, l'emploi et l'accessibilité." },
+    { name:"Handinova (Emploi & Handicap)",       url:"https://www.handirect.fr/feed/",                                        category:"inclusion", officiel:false, desc:"Anciennement Handirect. Magazine emploi, accessibilité et handicap." },
+    { name:"ANLCI (Lutte Illettrisme)",           url:"https://www.anlci.gouv.fr/feed/",                                       category:"inclusion", officiel:true,  desc:"Agence nationale de lutte contre l'illettrisme." },
+    { name:"Agefiph (Emploi & Handicap)",         url:"https://www.agefiph.fr/rss.xml",                                        category:"inclusion", officiel:true,  desc:"Fonds pour l'insertion professionnelle des personnes handicapées : aides, dispositifs, études. Incontournable pour l'accompagnement RQTH." },
 ];
 
 
@@ -576,87 +612,117 @@ const FEED_CATALOG = [
 // 4. SOURCES PAR DÉFAUT
 // ═══════════════════════════════════════════
 const defaultSources = [
-    // ── FLUX RSS (vérifiés fonctionnels) ─────────────────────────
-    {id:"s1", category:"formation", type:"rss", name:"Centre Inffo (Formation Pro)",              url:"https://www.centre-inffo.fr/category/site-centre-inffo/actualites-centre-inffo/le-quotidien-de-la-formation-actualite-formation-professionnelle-apprentissage/feed"},
-    {id:"s3", category:"formation", type:"rss", name:"Céreq (Études & Qualifications)",            url:"https://www.cereq.fr/rss.xml"},
-    {id:"s5", category:"droit",     type:"rss", name:"Service-Public (Pro)",                url:"https://www.service-public.gouv.fr/abonnements/rss/actu-actu-pro.rss"},
-    {id:"s6", category:"droit",     type:"rss", name:"Éditions Tissot (Droit RH)",                 url:"https://www.editions-tissot.fr/actualite/feeds/droit-du-travail/last_news.atom"},
-    {id:"s7", category:"droit",     type:"rss", name:"FAS (Fédération des Acteurs de Solidarité)", url:"https://www.federationsolidarite.org/feed/"},
-    {id:"s10",category:"emploi",    type:"rss", name:"Le Monde — Emploi",                          url:"https://www.lemonde.fr/emploi/rss_full.xml"},
-    {id:"s11",category:"emploi",    type:"rss", name:"UNML (Missions Locales)",                    url:"https://www.unml.info/feed/"},
-    {id:"s15",category:"emploi",    type:"rss", name:"DARES (Statistiques Travail)",              url:"https://dares.travail-emploi.gouv.fr/flux-rss/etudes-et-statistiques.xml"},
+    // ═══════════════════════════════════════════════════════════════
+    //  FLUX RSS — vérifiés vivants au banc d'essai (rapport 23/09/2026)
+    //  officiel:true = émane d'une institution publique, d'un établissement
+    //  public ou d'un organisme investi d'une mission de service public.
+    // ═══════════════════════════════════════════════════════════════
 
-    // Inclusion, IAE & Handicap
-    {id:"s12",category:"inclusion", type:"rss", name:"Handicap.gouv.fr (Officiel)",   url:"https://handicap.gouv.fr/rss.xml"},
-    {id:"s13",category:"inclusion", type:"rss", name:"Informations Handicap.fr",       url:"https://informations.handicap.fr/rss.xml"},
-    {id:"s14",category:"inclusion", type:"rss", name:"Handirect (Emploi & Handicap)", url:"https://www.handirect.fr/feed/"},
-    {id:"s17",category:"inclusion", type:"rss", name:"ANLCI (Lutte Illettrisme)",     url:"https://www.anlci.gouv.fr/feed/"},
+    // ── Formation & Métier ──
+    {id:"s3", category:"formation", type:"rss", officiel:true, name:"Céreq (Études & Qualifications)", url:"https://www.cereq.fr/rss.xml"},
 
-    // ── VEILLE TERRITORIALE ──────────────────────────────────────
-    {id:"s32",category:"territorial",region:"nouvelle-aquitaine", type:"rss",     name:"DREETS Nouvelle-Aquitaine",     url:"https://nouvelle-aquitaine.dreets.gouv.fr/spip.php?page=backend"},
-    {id:"s33",category:"territorial",region:"nouvelle-aquitaine", type:"rss",     name:"Cap Métiers Nouvelle-Aquitaine",url:"https://www.cap-metiers.pro/rss/actualites.rss"},
-    {id:"s34",category:"territorial",region:"nouvelle-aquitaine", type:"rss",      name:"INSEE Nouvelle-Aquitaine",      url:"https://www.insee.fr/fr/flux/12"},
+    // ── Droit / Cadre légal ──
+    {id:"s5", category:"droit", type:"rss", officiel:true,  name:"Service-Public (Pro)",       url:"https://www.service-public.gouv.fr/abonnements/rss/actu-actu-pro.rss"},
+    {id:"s6", category:"droit", type:"rss", officiel:false, name:"Éditions Tissot (Droit RH)", url:"https://www.editions-tissot.fr/actualite/feeds/droit-du-travail/last_news.atom"},
+    {id:"s20",category:"droit", type:"rss", officiel:true,  name:"Vie-publique — Lois",        url:"https://www.vie-publique.fr/lois-feeds.xml"},
+
+    // ── Emploi & Métier ──
+    {id:"s10",category:"emploi", type:"rss", officiel:false, name:"Le Monde — Emploi",             url:"https://www.lemonde.fr/emploi/rss_full.xml"},
+    {id:"s11",category:"emploi", type:"rss", officiel:true,  name:"UNML (Missions Locales)",       url:"https://www.unml.info/feed/"},
+    {id:"s21",category:"emploi", type:"rss", officiel:false, name:"Alternatives Économiques",      url:"https://www.alternatives-economiques.fr/rss.xml"},
+    {id:"s22",category:"emploi", type:"rss", officiel:false, name:"Observatoire des Inégalités",   url:"https://www.inegalites.fr/spip.php?page=backend"},
+    {id:"s23",category:"emploi", type:"rss", officiel:false, name:"L'Usine Nouvelle",              url:"https://www.usinenouvelle.com/rss/"},
+
+    // ── Inclusion, IAE & Handicap ──
+    {id:"s12",category:"inclusion", type:"rss", officiel:true,  name:"Handicap.gouv.fr (Officiel)",  url:"https://handicap.gouv.fr/rss.xml"},
+    {id:"s13",category:"inclusion", type:"rss", officiel:false, name:"Informations Handicap.fr",     url:"https://www.handicap.fr/rss/"},
+    {id:"s14",category:"inclusion", type:"rss", officiel:false, name:"Handinova (Emploi & Handicap)",url:"https://www.handirect.fr/feed/"},
+    {id:"s17",category:"inclusion", type:"rss", officiel:true,  name:"ANLCI (Lutte Illettrisme)",    url:"https://www.anlci.gouv.fr/feed/"},
+    {id:"s18",category:"inclusion", type:"rss", officiel:true,  name:"Agefiph (Emploi & Handicap)",  url:"https://www.agefiph.fr/rss.xml"},
+    {id:"s24",category:"inclusion", type:"rss", officiel:false, name:"ASH — Actualités Sociales Hebdo", url:"https://www.ash.tm.fr/rss.xml"},
+    {id:"s7", category:"inclusion", type:"rss", officiel:false, name:"FAS (Fédération des Acteurs de Solidarité)", url:"https://www.federationsolidarite.org/feed/"},
+
+    // ═══════════════════════════════════════════════════════════════
+    //  VEILLE SUR SITE — actualité vivante, mais accès protégé (robots
+    //  bloqués, JS/cookies requis). On n'agrège pas : on ouvre le site
+    //  directement, à la source, en le disant clairement.
+    // ═══════════════════════════════════════════════════════════════
+    {id:"v01",category:"formation", type:"veille-site", officiel:true, name:"Canopé (Ressources pédagogiques)", url:"https://www.reseau-canope.fr/actualites.html",
+     desc:"Réseau de création et d'accompagnement pédagogiques (Éducation nationale). Actualité vivante, mais le site protège sa lecture automatique : ouvrez-le directement pour accéder à ses ressources."},
+    {id:"v02",category:"formation", type:"veille-site", officiel:true, name:"France Compétences", url:"https://www.francecompetences.fr/",
+     desc:"Institution nationale de régulation et financement de la formation professionnelle et de l'apprentissage (RNCP, certifications). Actualité vivante en accès direct sur le site."},
+    {id:"v03",category:"formation", type:"veille-site", officiel:true, name:"ONISEP (Actualités)", url:"https://www.onisep.fr/",
+     desc:"Office national d'information sur les enseignements et les professions (établissement public). Métiers, formations, orientation. Consultation directe sur le site."},
+    {id:"v04",category:"formation", type:"veille-site", officiel:true, name:"Vie-publique — Enseignement", url:"https://www.vie-publique.fr/",
+     desc:"Fil « Enseignement » de Vie-publique (DILA). Le flux thématique nécessite un accès navigateur : ouvrez le site pour consulter l'actualité éducation-formation."},
+
+    // ═══════════════════════════════════════════════════════════════
+    //  VEILLE TERRITORIALE (recherche par région)
+    // ═══════════════════════════════════════════════════════════════
+    {id:"s32",category:"territorial",region:"nouvelle-aquitaine", type:"rss", officiel:true, name:"DREETS Nouvelle-Aquitaine",     url:"https://nouvelle-aquitaine.dreets.gouv.fr/spip.php?page=backend"},
+    {id:"s33",category:"territorial",region:"nouvelle-aquitaine", type:"rss", officiel:false,name:"Cap Métiers Nouvelle-Aquitaine",url:"https://pro.cap-metiers.fr/feed/"},
+    {id:"s34",category:"territorial",region:"nouvelle-aquitaine", type:"rss", officiel:true, name:"INSEE Nouvelle-Aquitaine",      url:"https://www.insee.fr/fr/flux/12"},
 
     // ── DOSSIER : Outils CIP & Métier ────────────────────────────
-    {id:"t01",category:"outils_cip",type:"resource",name:"Le Labo des CIP",              url:"https://lelabodescip.fr/",
+    {id:"t01",category:"outils_cip",type:"resource",officiel:false,name:"Le Labo des CIP",              url:"https://lelabodescip.fr/",
      desc:"Site communautaire des CIP. Fiches pratiques, outils d'accompagnement, techniques d'entretien et partage de ressources entre professionnels."},
-    {id:"t02",category:"outils_cip",type:"resource",name:"Le Repère des CIP",            url:"https://lereperedescip.fr",
+    {id:"t02",category:"outils_cip",type:"resource",officiel:false,name:"Le Repère des CIP",            url:"https://lereperedescip.fr",
      desc:"Supports de séances, bilans de compétences, techniques d'animation de groupe et modèles de documents professionnels pour les CIP."},
-    {id:"t03",category:"outils_cip",type:"resource",name:"Communauté de l'Inclusion",    url:"https://communaute.inclusion.gouv.fr/",
+    {id:"t03",category:"outils_cip",type:"resource",officiel:true,name:"Communauté de l'Inclusion",    url:"https://communaute.inclusion.gouv.fr/",
      desc:"Plateforme officielle d'échanges entre professionnels de l'inclusion. Fiches pratiques, forums thématiques et retours d'expérience du terrain."},
-    {id:"t04",category:"outils_cip",type:"resource",name:"Plateforme DORA",              url:"https://dora.inclusion.beta.gouv.fr",
+    {id:"t04",category:"outils_cip",type:"resource",officiel:true,name:"Plateforme DORA",              url:"https://dora.inclusion.beta.gouv.fr",
      desc:"Référentiel national des structures d'insertion. Repérez rapidement les partenaires locaux pour construire les parcours de vos bénéficiaires."},
 
     // ── DOSSIER : France Travail & Services ──────────────────────
-    {id:"t20",category:"outils_ft", type:"resource",name:"France Travail (Portail)",     url:"https://www.francetravail.org",
+    {id:"t20",category:"outils_ft", type:"resource",officiel:true,name:"France Travail (Portail)",     url:"https://www.francetravail.org",
      desc:"Portail officiel France Travail. Offres d'emploi, droits, ressources conseillers. Le flux RSS automatique n'est plus disponible, accès direct recommandé."},
-    {id:"t22",category:"outils_ft", type:"resource",name:"Météoscope (Tensions emploi)", url:"https://meteoscope.francetravail.fr",
+    {id:"t22",category:"outils_ft", type:"resource",officiel:true,name:"Météoscope (Tensions emploi)", url:"https://meteoscope.francetravail.fr",
      desc:"Outil France Travail de visualisation des tensions sur le marché du travail par métier et territoire. Identifiez les secteurs qui recrutent et ceux en difficulté."},
-    {id:"t23",category:"outils_ft", type:"resource",name:"La Bonne Boîte",               url:"https://labonneboite.francetravail.fr",
+    {id:"t23",category:"outils_ft", type:"resource",officiel:true,name:"La Bonne Boîte",               url:"https://labonneboite.francetravail.fr",
      desc:"Algorithme France Travail qui identifie les entreprises qui recrutent souvent sans publier d'offres. Idéal pour les candidatures spontanées ciblées."},
-    {id:"t24",category:"outils_ft", type:"resource",name:"Immersion Facilitée",          url:"https://immersion-facile.beta.gouv.fr",
+    {id:"t24",category:"outils_ft", type:"resource",officiel:true,name:"Immersion Facilitée",          url:"https://immersion-facile.beta.gouv.fr",
      desc:"Plateforme officielle pour trouver et formaliser des périodes de mise en situation professionnelle (PMSMP). Simplifie la mise en relation avec les entreprises d'accueil."},
-    {id:"t25",category:"outils_ft", type:"resource",name:"La Bonne Alternance",          url:"https://labonnealternance.apprentissage.beta.gouv.fr",
+    {id:"t25",category:"outils_ft", type:"resource",officiel:true,name:"La Bonne Alternance",          url:"https://labonnealternance.apprentissage.beta.gouv.fr",
      desc:"Plateforme de mise en relation apprentis/entreprises. Recherche d'offres et de CFA par métier et territoire. Incontournable pour l'accompagnement vers l'apprentissage."},
-    {id:"t26",category:"outils_ft", type:"resource",name:"Mon Compte Formation (CPF)",   url:"https://www.moncompteformation.gouv.fr",
+    {id:"t26",category:"outils_ft", type:"resource",officiel:true,name:"Mon Compte Formation (CPF)",   url:"https://www.moncompteformation.gouv.fr",
      desc:"Portail officiel du Compte Personnel de Formation. Catalogue des formations éligibles, activation du compte, co-financement. Essentiel pour accompagner vos bénéficiaires."},
-    {id:"t27",category:"outils_ft", type:"resource",name:"FASTT (Aide Intérimaires)",    url:"https://www.fastt.org",
+    {id:"t27",category:"outils_ft", type:"resource",officiel:false,name:"FASTT (Aide Intérimaires)",    url:"https://www.fastt.org",
      desc:"Fonds d'Action Sociale du Travail Temporaire. Accompagnement logement, mobilité, garde d'enfants, crédit pour les publics en contrat de mission."},
 
     // ── DOSSIER : Juridique & Réglementaire ──────────────────────
-    {id:"t30",category:"outils_juridique",type:"resource",name:"Légifrance",             url:"https://www.legifrance.gouv.fr",
+    {id:"t30",category:"outils_juridique",type:"resource",officiel:true,name:"Légifrance",             url:"https://www.legifrance.gouv.fr",
      desc:"Service public du droit français. Codes du travail et de l'action sociale, décrets, circulaires, jurisprudence. La référence pour vérifier tout texte officiel."},
-    {id:"t31",category:"outils_juridique",type:"resource",name:"VAE.gouv.fr",            url:"https://vae.gouv.fr/espace-candidat",
+    {id:"t31",category:"outils_juridique",type:"resource",officiel:true,name:"VAE.gouv.fr",            url:"https://vae.gouv.fr/espace-candidat",
      desc:"Portail officiel de la VAE. Initier une démarche, trouver les diplômes accessibles, être mis en relation avec un accompagnateur certificateur."},
-    {id:"t32",category:"outils_juridique",type:"resource",name:"DGEFP / Travail-Emploi", url:"https://travail-emploi.gouv.fr",
+    {id:"t32",category:"outils_juridique",type:"resource",officiel:true,name:"DGEFP / Travail-Emploi", url:"https://travail-emploi.gouv.fr",
      desc:"Portail du Ministère du Travail. Textes de loi, circulaires, dispositifs d'aide à l'emploi, réforme de la formation. Source réglementaire de référence."},
-    {id:"t33",category:"outils_juridique",type:"resource",name:"DARES (Statistiques)",   url:"https://dares.travail-emploi.gouv.fr/publications",
+    {id:"t33",category:"outils_juridique",type:"resource",officiel:true,name:"DARES (Statistiques)",   url:"https://dares.travail-emploi.gouv.fr/publications",
      desc:"Statistiques officielles du Ministère du Travail. Chiffres du chômage, contrats, secteurs en tension, tendances du marché de l'emploi."},
-    {id:"t34",category:"outils_juridique",type:"resource",name:"Haut-commissariat Stratégie et Plan", url:"https://www.strategie-plan.gouv.fr",
+    {id:"t34",category:"outils_juridique",type:"resource",officiel:true,name:"Haut-commissariat Stratégie et Plan", url:"https://www.strategie-plan.gouv.fr",
      desc:"Prospective rattachée au Premier Ministre. Rapports de fond sur l'emploi, les inégalités, la formation et les politiques publiques."},
 
     // ── DOSSIER : Formation & Orientation (Ressources) ───────────
-    {id:"t40",category:"outils_formation_res",type:"resource",name:"Intercariforef (National)", url:"https://www.intercariforef.org",
+    {id:"t40",category:"outils_formation_res",type:"resource",officiel:true,name:"Intercariforef (National)", url:"https://www.intercariforef.org",
      desc:"Réseau national des CARIF-OREF. Études nationales sur la formation, l'orientation et l'emploi. Publications de référence pour la veille sur les politiques formation."},
-    {id:"t41",category:"outils_formation_res",type:"resource",name:"L'Étudiant (Jeunes)", url:"https://www.letudiant.fr",
+    {id:"t41",category:"outils_formation_res",type:"resource",officiel:false,name:"L'Étudiant (Jeunes)", url:"https://www.letudiant.fr",
      desc:"Portail d'orientation jeunes. Fiches métiers, guides des formations, classements d'écoles. Indispensable pour accompagner un public jeune ou Mission Locale."},
-    {id:"t42",category:"outils_formation_res",type:"resource",name:"Parcoursup",          url:"https://www.parcoursup.gouv.fr",
+    {id:"t42",category:"outils_formation_res",type:"resource",officiel:true,name:"Parcoursup",          url:"https://www.parcoursup.gouv.fr",
      desc:"Plateforme nationale d'admission dans l'enseignement supérieur. Calendrier, formations disponibles, procédures. Utile pour les publics jeunes en orientation post-bac."},
-    {id:"t43",category:"outils_formation_res",type:"resource",name:"ONISEP",              url:"https://www.onisep.fr",
+    {id:"t43",category:"outils_formation_res",type:"resource",officiel:true,name:"ONISEP",              url:"https://www.onisep.fr",
      desc:"Office national d'information sur les enseignements et les professions. Fiches métiers, parcours de formation, ressources pédagogiques pour l'orientation scolaire et professionnelle."},
-    {id:"t45",category:"outils_formation_res",type:"resource",name:"DARES (Données Emploi)",url:"https://dares.travail-emploi.gouv.fr",
+    {id:"t45",category:"outils_formation_res",type:"resource",officiel:true,name:"DARES (Données Emploi)",url:"https://dares.travail-emploi.gouv.fr",
      desc:"Direction des statistiques du ministère du Travail. Données de référence sur le marché du travail, les demandeurs d'emploi, l'apprentissage et les politiques d'emploi (séries longues, tableaux de bord)."},
 
     // ── DOSSIER : IAE, ESS & Handicap (Ressources) ───────────────
-    {id:"t50",category:"outils_iae",type:"resource",name:"Agefiph",                       url:"https://www.agefiph.fr",
-     desc:"Fonds pour l'insertion des personnes handicapées. Aides financières, obligations employeurs, ressources RQTH et maintien dans l'emploi. Flux RSS supprimé lors d'une refonte."},
-    {id:"t51",category:"outils_iae",type:"resource",name:"Avise (ESS & Innovation)",      url:"https://www.avise.org",
-     desc:"Agence de valorisation des initiatives socio-économiques. Ressources ESS, innovation sociale, IAE. Études et guides pratiques. Flux RSS non disponible."},
-    {id:"t53",category:"outils_iae",type:"resource",name:"Chantier École",                url:"https://www.chantierecole.org",
+    {id:"t50",category:"outils_iae",type:"resource",officiel:true,name:"Agefiph",                       url:"https://www.agefiph.fr",
+     desc:"Fonds pour l'insertion des personnes handicapées. Aides financières, obligations employeurs, ressources RQTH et maintien dans l'emploi."},
+    {id:"t51",category:"outils_iae",type:"resource",officiel:false,name:"Avise (ESS & Innovation)",      url:"https://www.avise.org",
+     desc:"Agence de valorisation des initiatives socio-économiques. Ressources ESS, innovation sociale, IAE. Études et guides pratiques."},
+    {id:"t53",category:"outils_iae",type:"resource",officiel:false,name:"Chantier École",                url:"https://www.chantierecole.org",
      desc:"Fédération nationale des chantiers d'insertion. Partenariat IAE, offres de postes en SIAE et outils pédagogiques liés au bâtiment et à l'environnement."},
-    {id:"t54",category:"outils_iae",type:"resource",name:"Réseau Cocagne",                url:"https://www.reseau-cocagne.org",
+    {id:"t54",category:"outils_iae",type:"resource",officiel:false,name:"Réseau Cocagne",                url:"https://www.reseau-cocagne.org",
      desc:"Jardins maraîchers biologiques et solidaires. Orienter les publics vers des SIAE du secteur agri-environnemental et trouver des partenaires locaux."},
-    {id:"t55",category:"outils_iae",type:"resource",name:"FIPHFP (Handicap Fp)",          url:"https://www.fiphfp.fr",
+    {id:"t55",category:"outils_iae",type:"resource",officiel:true,name:"FIPHFP (Handicap Fp)",          url:"https://www.fiphfp.fr",
      desc:"Fonds pour l'insertion des personnes handicapées dans la Fonction Publique. Dispositifs d'accompagnement, aides et ressources pour les agents en situation de handicap."},
 ];
 
@@ -689,6 +755,8 @@ let articleComments = getSafeLocalData('cipv7_comments', {}); // { artId: "texte
 let articleTags = getSafeLocalData('cipv7_tags', {}); // { artId: ["RQTH","Jeunes",...] }
 let articleStore = getSafeLocalData('cipv7_tagstore', {}); // { artId: {title,link,sourceName,...} } pour retrouver les articles tagués
 let activeTagFilter = null; // tag actuellement affiché dans la vue "Mes étiquettes"
+let officielOnly = false;   // filtre « sources officielles uniquement » (revue du jour)
+let inDigestView = false;   // true quand on affiche la revue du jour (pour montrer le filtre)
 let searchHistory = getSafeLocalData('cipv7_search_history', []); // tableau de chaînes, plus récent en premier
 let territories  = getSafeLocalData('cipv7_territories', (SEED && SEED.territories) || defaultTerritories);
 let activeRegion = getSafeLocalString('cipv7_region',    territories[0]?.key||'nouvelle-aquitaine');
@@ -739,6 +807,7 @@ function trimArticleForCache(a){
         pubDate:        a.pubDate,
         sourceName:     a.sourceName,
         sourceCategory: a.sourceCategory,
+        sourceOfficiel: !!a.sourceOfficiel,
     };
 }
 
@@ -1213,6 +1282,15 @@ function renderSidebar(){
         appendCollapsibleCat(container,cat,catSources);
     });
 
+    // ── BLOC 1bis : VEILLE SUR SITE (sources vivantes mais à accès protégé) ──
+    const veilleSiteSources=sources.filter(s=>s.type==='veille-site');
+    if(veilleSiteSources.length>0){
+        appendBlocHeader(container,'VEILLE SUR SITE','fa-satellite-dish');
+        const ulV=document.createElement('ul'); ulV.className='space-y-0.5';
+        veilleSiteSources.forEach(s=>appendSourceItem(ulV,s));
+        container.appendChild(ulV);
+    }
+
     // ── BLOC 2 : VEILLE TERRITORIALE ────────────────────
     appendBlocHeader(container,'VEILLE TERRITORIALE','fa-map-location-dot');
 
@@ -1302,10 +1380,15 @@ function appendSourceItem(ul,src){
     const li=document.createElement('li');
     const isActive=currentFeedId===src.id;
     li.className=`group flex items-center justify-between px-3 py-1.5 text-xs rounded-lg cursor-pointer ${isActive?'active-item':'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`;
+    const naturePicto = src.type==='veille-site' ? 'fa-satellite-dish text-terracotta'
+                      : src.type==='resource'    ? 'fa-link text-amber-400'
+                      : 'fa-rss text-slate-400';
+    const officielBadge = src.officiel ? '<i class="fa-solid fa-certificate text-[8px] flex-shrink-0" style="color:var(--theme-color);" title="Source officielle (institution publique)"></i>' : '';
     li.innerHTML=`
         <div class="flex items-center gap-2 truncate trigger-zone min-w-0 flex-1">
-            <i class="fa-solid ${src.type==='resource'?'fa-link text-amber-400':'fa-rss text-slate-400'} flex-shrink-0 text-[9px]"></i>
+            <i class="fa-solid ${naturePicto} flex-shrink-0 text-[9px]"></i>
             <span class="truncate">${src.name}</span>
+            ${officielBadge}
         </div>
         <div class="flex opacity-0 group-hover:opacity-100 transition-opacity gap-0.5 flex-shrink-0 ml-1">
             <button class="btn-edit text-slate-400 hover:text-blue-500 p-0.5" title="Modifier"><i class="fa-solid fa-pen-to-square text-[9px]"></i></button>
@@ -1322,6 +1405,7 @@ function appendSourceItem(ul,src){
 // ═══════════════════════════════════════════
 function showDashboard(){
     closeSidebarIfMobile();
+    inDigestView=false;
     currentFeedId=null; loadedArticles=[];
     renderSidebar();
     const mc=document.getElementById('main-content');
@@ -1465,7 +1549,7 @@ function makeResourceCard(src){
                         :`<i class="fa-solid fa-globe text-slate-300 text-xs"></i>`}
                 </div>
                 <div class="min-w-0">
-                    <h4 class="font-bold text-xs text-slate-800 dark:text-slate-100 leading-tight line-clamp-2">${src.name}</h4>
+                    <h4 class="font-bold text-xs text-slate-800 dark:text-slate-100 leading-tight line-clamp-2">${src.name}${src.officiel?' <i class="fa-solid fa-certificate text-[9px]" style="color:var(--theme-color);" title="Source officielle (institution publique)"></i>':''}</h4>
                     <p class="text-[10px] text-slate-400 font-mono truncate">${domain}</p>
                 </div>
                 <button class="btn-edit-card ml-auto text-slate-300 hover:text-blue-500 flex-shrink-0" title="Modifier"><i class="fa-solid fa-pen-to-square text-[10px]"></i></button>
@@ -1649,6 +1733,7 @@ function populateRegionSelect(sel=''){
 // ═══════════════════════════════════════════
 async function loadFeed(id){
     closeSidebarIfMobile();
+    inDigestView=false;
     currentFeedId=id;
     renderSidebar();
     const sb=document.getElementById('search-bar');
@@ -1662,17 +1747,25 @@ async function loadFeed(id){
     const mc=document.getElementById('main-content');
     if(!mc) return;
 
-    // Fiche ressource
-    if(src.type==='resource'){
+    // Fiche ressource OU veille sur site (les deux ouvrent le site directement, sans agréger)
+    if(src.type==='resource' || src.type==='veille-site'){
         loadedArticles=[];
         renderFeedFreshness(null,'hidden');
+        const isVeilleSite = src.type==='veille-site';
         let domain=''; try{domain=new URL(src.url).hostname;}catch(e){}
         const favicon=domain?`https://www.google.com/s2/favicons?domain=${domain}&sz=64`:'';
         const desc=src.desc||"Ressource externe. Accédez-y directement.";
+        // Habillage distinct : la veille sur site est une actualité vivante (accent terracotta,
+        // picto radar), la ressource un outil qu'on va chercher (accent thème, picto lien).
+        const accentBar   = isVeilleSite ? 'background-color:var(--terracotta);' : '';
+        const badgePicto  = isVeilleSite ? 'fa-satellite-dish' : 'fa-link';
+        const badgeColor  = isVeilleSite ? 'background-color:var(--terracotta);' : 'background-color:#fbbf24;';
+        const ctaLabel    = isVeilleSite ? 'Ouvrir la source' : 'Ouvrir le portail';
+        const ctaPicto    = isVeilleSite ? 'fa-satellite-dish' : 'fa-door-open';
         mc.innerHTML=`
             <div class="max-w-xl mx-auto mt-10">
                 <div class="bg-white dark:bg-slate-850 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md overflow-hidden">
-                    <div class="h-2 bg-theme w-full"></div>
+                    <div class="h-2 w-full ${isVeilleSite?'':'bg-theme'}" style="${accentBar}"></div>
                     <div class="p-8 text-center">
                         <div class="relative inline-block mb-4">
                             <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-sm overflow-hidden mx-auto">
@@ -1680,14 +1773,18 @@ async function loadFeed(id){
                                    <div style="display:none" class="w-full h-full items-center justify-center text-slate-400 text-xl"><i class="fa-solid fa-globe"></i></div>`
                                 :`<i class="fa-solid fa-globe text-slate-400 text-xl"></i>`}
                             </div>
-                            <span class="absolute -bottom-1 -right-1 bg-amber-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow"><i class="fa-solid fa-link"></i></span>
+                            <span class="absolute -bottom-1 -right-1 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow" style="${badgeColor}"><i class="fa-solid ${badgePicto}"></i></span>
                         </div>
-                        <h3 class="text-lg font-bold mb-0.5">${src.name}</h3>
+                        <h3 class="text-lg font-bold mb-0.5">${src.name}${src.officiel?' <i class="fa-solid fa-certificate text-[11px] align-middle" style="color:var(--theme-color);" title="Source officielle (institution publique)"></i>':''}</h3>
                         <p class="text-xs text-slate-400 mb-3 font-mono">${domain}</p>
-                        <hr class="border-slate-100 dark:border-slate-700 mb-3">
+                        ${isVeilleSite?`
+                        <div class="flex items-start gap-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2 text-xs text-amber-800 dark:text-amber-300 mb-3 text-left">
+                            <i class="fa-solid fa-satellite-dish text-amber-500 mt-0.5 flex-shrink-0"></i>
+                            <span><b>Veille sur site.</b> Cette source publie une actualité vivante, mais protège sa lecture automatique (accès robot bloqué, ou navigateur requis). On ne l'agrège donc pas ici : on vous ouvre le site directement, à la source, dans les meilleures conditions.</span>
+                        </div>`:'<hr class="border-slate-100 dark:border-slate-700 mb-3">'}
                         <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-5 text-left">${desc}</p>
-                        <a href="${src.url}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-theme text-white rounded-xl font-semibold text-sm hover:opacity-90 shadow-md">
-                            <i class="fa-solid fa-door-open"></i> Ouvrir le portail
+                        <a href="${src.url}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 text-white rounded-xl font-semibold text-sm hover:opacity-90 shadow-md ${isVeilleSite?'':'bg-theme'}" style="${isVeilleSite?'background-color:var(--terracotta);':''}">
+                            <i class="fa-solid ${ctaPicto}"></i> ${ctaLabel}
                         </a>
                     </div>
                 </div>
@@ -1793,6 +1890,7 @@ function normalizeArticle(data, src){
         pubDate:        data.pubDate     || '',
         sourceName:     src.name,
         sourceCategory: src.category,
+        sourceOfficiel: !!src.officiel,
     };
 }
 
@@ -1819,12 +1917,14 @@ async function tryRawProxy(proxyUrl, src, timeout){
 // ── Liste déclarative des relais, essayés dans l'ordre ──────────────
 // Pour en ajouter/retirer un : une ligne suffit. L'ordre = l'ordre d'essai.
 // Aucun relais public n'est éternel ni garanti : la redondance est la seule parade.
+// Relais personnel (Worker Cloudflare) — essayé en premier : domaines déjà déclarés
+// dans sa liste blanche, aucune limite de débit public. Les deux relais publics
+// suivants ne servent que de secours si le Worker est momentanément indisponible.
+const CLOUDFLARE_RELAY = 'https://superveille-relais.prevost-chr.workers.dev/?url=';
 const FEED_RELAYS = [
+    { name:'perso',      run:(src)=>tryRawProxy(CLOUDFLARE_RELAY + encodeURIComponent(src.url), src, 8000) },
     { name:'rss2json',   run:(src)=>tryRss2Json(src) },
     { name:'allorigins', run:(src)=>tryRawProxy('https://api.allorigins.win/raw?url=' + encodeURIComponent(src.url), src, 7000) },
-    { name:'codetabs',   run:(src)=>tryRawProxy('https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(src.url), src, 7000) },
-    { name:'corsproxy',  run:(src)=>tryRawProxy('https://corsproxy.io/?url=' + encodeURIComponent(src.url), src, 7000) },
-    { name:'corsfix',    run:(src)=>tryRawProxy('https://proxy.corsfix.com/?' + src.url, src, 7000) },
 ];
 
 // ── Relais rss2json (renvoie du JSON prêt à l'emploi) ──
@@ -1891,6 +1991,7 @@ async function fetchSingleFeed(src){
 // ═══════════════════════════════════════════
 async function loadDailyDigest(){
     currentFeedId=null;
+    inDigestView=true;
     renderSidebar();
     const cft=document.getElementById('current-feed-title');
     if(cft) cft.textContent='Revue du jour';
@@ -2239,6 +2340,7 @@ function openTagPicker(zone, art){
 
 // Vue "Mes étiquettes" : affiche tous les articles tagués d'un tag donné
 function showTagView(tag){
+    inDigestView=false;
     activeTagFilter=tag;
     currentFeedId=null;
     renderSidebar();
@@ -2256,6 +2358,7 @@ function showTagView(tag){
 
 // Affiche la liste de tous les tags (quand on clique sur le menu "Mes étiquettes")
 function showAllTags(){
+    inDigestView=false;
     activeTagFilter=null;
     currentFeedId=null;
     renderSidebar();
@@ -2367,26 +2470,55 @@ function renderArticles(list){
     const c=document.getElementById('main-content');
     if(!c) return;
     c.innerHTML='';
-    if(list.length===0){c.innerHTML=`<div class="text-center py-12 text-slate-400 text-sm"><i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>Aucun article.</div>`;return;}
 
-    // Barre d'actions sélection (export PDF)
+    // Filtre « officiels uniquement » : n'agit que dans la revue du jour
+    const fullList = list;
+    let shownList = list;
+    if(inDigestView && officielOnly){
+        shownList = list.filter(a=>a.sourceOfficiel);
+    }
+
+    // Barre d'actions : bouton filtre officiel (revue du jour) + sélection PDF
     const actionBar=document.createElement('div');
-    actionBar.className='flex items-center justify-between max-w-6xl mx-auto mb-3 px-1';
+    actionBar.className='flex items-center justify-between max-w-6xl mx-auto mb-3 px-1 gap-2 flex-wrap';
+    const officialCount = fullList.filter(a=>a.sourceOfficiel).length;
     actionBar.innerHTML=`
-        <label class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 cursor-pointer select-none">
-            <input type="checkbox" id="select-all-articles" class="rounded">
-            Tout sélectionner
-        </label>
+        <div class="flex items-center gap-3">
+            <label class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 cursor-pointer select-none">
+                <input type="checkbox" id="select-all-articles" class="rounded">
+                Tout sélectionner
+            </label>
+            ${inDigestView?`
+            <button id="btn-officiel-filter" class="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border transition-colors ${officielOnly?'text-white border-transparent':'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-theme'}" style="${officielOnly?'background-color:var(--theme-color);':''}" title="N'afficher que les sources officielles (institutions publiques)">
+                <i class="fa-solid fa-certificate text-[10px]"></i> Officiels ${officielOnly?'✓':`(${officialCount})`}
+            </button>`:''}
+        </div>
         <button id="btn-export-pdf-selection" class="hidden text-xs font-semibold px-3 py-1.5 rounded-lg bg-theme text-white flex items-center gap-1.5">
             <i class="fa-solid fa-file-pdf text-[11px]"></i> Exporter <span id="pdf-sel-count">0</span> article(s) en PDF
         </button>`;
     c.appendChild(actionBar);
 
+    const filterBtn=document.getElementById('btn-officiel-filter');
+    if(filterBtn) filterBtn.addEventListener('click',()=>{
+        officielOnly=!officielOnly;
+        renderArticles(fullList);
+    });
+
+    if(shownList.length===0){
+        const empty=document.createElement('div');
+        empty.className='text-center py-12 text-slate-400 text-sm';
+        empty.innerHTML = (inDigestView&&officielOnly)
+            ? `<i class="fa-solid fa-certificate text-3xl mb-2 block"></i>Aucun article de source officielle pour le moment.`
+            : `<i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>Aucun article.`;
+        c.appendChild(empty);
+        return;
+    }
+
     const wrap=document.createElement('div');
     wrap.className=viewMode==='grid'?'grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto pb-12':'space-y-2 max-w-5xl mx-auto pb-12';
 
     const nowTs=Date.now();
-    list.forEach(art=>{
+    shownList.forEach(art=>{
         const isFav=favorites.some(f=>f.id===art.id);
         const isRead=readArticles.includes(art.id);
         const tmp=document.createElement('div'); tmp.innerHTML=art.description||'';
@@ -2457,7 +2589,7 @@ function renderArticles(list){
         updatePdfSelectionBar();
     });
     const btnPdf=document.getElementById('btn-export-pdf-selection');
-    if(btnPdf) btnPdf.addEventListener('click', ()=>exportArticlesToPdf(list));
+    if(btnPdf) btnPdf.addEventListener('click', ()=>exportArticlesToPdf(shownList));
 }
 
 function updatePdfSelectionBar(){
@@ -2473,6 +2605,7 @@ function updatePdfSelectionBar(){
 // 15. FAVORIS / RECHERCHE / LU
 // ═══════════════════════════════════════════
 function loadFavorites(){
+    inDigestView=false;
     currentFeedId=null; renderSidebar();
     const mf=document.getElementById('menu-favorites');
     if(mf) mf.classList.add('active-item');
@@ -2662,6 +2795,7 @@ function openModal(id=null){
             document.getElementById('sourceType').value    =src.type;
             document.getElementById('sourceCategory').value=src.category;
             document.getElementById('sourceDesc').value    =src.desc||'';
+            document.getElementById('sourceOfficiel').checked = !!src.officiel;
             if(src.region) populateRegionSelect(src.region);
             toggleRegionField();
         }
@@ -2683,12 +2817,13 @@ function handleFormSubmit(e){
     const cat =document.getElementById('sourceCategory').value;
     const reg =cat==='territorial'?document.getElementById('sourceRegion').value:undefined;
     const desc=document.getElementById('sourceDesc').value.trim()||undefined;
-    if(id){ sources=sources.map(s=>s.id===id?{id,name,url,type,category:cat,region:reg,desc}:s); }
-    else  { sources.push({id:'s_'+Date.now(),name,url,type,category:cat,region:reg,desc}); }
+    const officiel=document.getElementById('sourceOfficiel').checked||undefined;
+    if(id){ sources=sources.map(s=>s.id===id?{id,name,url,type,category:cat,region:reg,desc,officiel}:s); }
+    else  { sources.push({id:'s_'+Date.now(),name,url,type,category:cat,region:reg,desc,officiel}); }
     saveSources(); renderSidebar(); closeModal();
     showToast(id?'Source modifiée !':'Source ajoutée !','success');
     const target=sources.find(s=>s.id===(id||sources[sources.length-1].id));
-    if(target&&target.type==='resource') showDashboard();
+    if(target&&(target.type==='resource'||target.type==='veille-site')) showDashboard();
     else if(target) loadFeed(target.id);
 }
 function deleteSource(id){
