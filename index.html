@@ -14,10 +14,60 @@
                      Toute redistribution ou modification substantielle
                      doit conserver la mention de l'auteur d'origine.
         ────────────────────────────────────────────────────────
-        VERSION    : 2026.09 — « Assainissement »
+        VERSION    : 2026.10-b — « Réflexe »
         Devise     : « L'outil voyage, les données restent au poste. »
 
         JOURNAL DES MODIFICATIONS
+        2026.10-b — Réflexe
+          · Fiche réflexe : onglet rouge « RÉFLEXE », juste au-dessus de
+            l'onglet du bloc-notes. Un seul panneau ouvert à la fois.
+            Page 1 « National » : numéros d'urgence, d'écoute et
+            d'orientation, regroupés par situation, appelables d'un appui
+            depuis un téléphone (le 114 ouvre un SMS). Page 2
+            « Mon territoire » : contacts de proximité saisis par la
+            personne elle-même, gardés au poste (cipv7_reflexe_local).
+            Rappel en tête : on n'y inscrit que des ressources, jamais
+            d'information sur une personne accompagnée.
+          · Nouveau dossier de Balises « Pédagogie & Supports d'atelier ».
+            Limite assumée : SuperVeille dit OÙ TROUVER DE LA MATIÈRE,
+            les méthodes restent dans La Boussole. Quatre balises
+            officielles : CLEMI, Réseau Canopé, ANLCI, Pix.
+          · Le rapport PDF d'une sélection d'articles s'appelle désormais
+            « La trace ».
+          · Le Topo : le lien de l'en-tête est actif, en adresse relative.
+            Déposer le fichier du Topo à côté de index.html suffit.
+          · Correction : Emfor Bourgogne-Franche-Comté passe de
+            /rss.xml à /rss (flux vérifié vivant et frais). Reste
+            territorial, Bourgogne-Franche-Comté.
+          · Le banc d'essai (fichier séparé) prend le nom « Les jumelles ».
+          · Cap Métiers Nouvelle-Aquitaine : le catalogue régional pointait
+            sur cap-metiers.pro, dont le flux est fermé aux robots. Il pointe
+            désormais sur pro.cap-metiers.fr/feed/, ouvert et vérifié frais,
+            la même adresse que la source par défaut.
+        2026.10-a — Détecteur accéléré
+          · Formulaire « Ajouter » : les adresses de flux courantes sont
+            testées cinq à la fois et la recherche s'arrête au premier flux
+            trouvé ; un site refusé par le relais personnel n'y est plus
+            redemandé ; délais plus courts ; compteur de progression.
+            Rôles clarifiés : le formulaire cherche vite pour une adresse,
+            Les jumelles vérifient en masse, avec la fraîcheur.
+        2026.10 — Balisage
+          · Vocabulaire du randonneur : chiffres de l'accueil renommés Vigies
+            (flux RSS et reconnaissance), Balises (sites ressources) et
+            Relevés (articles gardés comme trace de veille) ; explication au
+            survol. Sous Vigies et Balises : « N officielles ».
+          · Sidebar : VIGIES · FLUX RSS, VIGIES · RECONNAISSANCE, TERRITOIRE,
+            BALISES. « Veille sur site » devient « Reconnaissance » ;
+            « Mes Favoris » devient « Mes relevés de terrain ».
+          · Icônes maison, qui suivent le thème et fonctionnent hors ligne :
+            bouclier au chat (source officielle), punaise (relevé : creuse
+            tant que l'article n'est pas gardé, pleine ensuite).
+          · En-tête : liens « Le Topo » (guide) et « Carnet des veilleurs »
+            (mail pré-rempli à l'auteur), masqués tant que leur adresse
+            n'est pas renseignée en haut du code.
+          · Formulaire « Ajouter » : détecteur de flux en cascade repris du
+            banc d'essai (flux déclaré, adresses courantes dont SPIP, liens de
+            la page), relais personnel d'abord ; le niveau trouvé est indiqué.
         2026.09-b — Compléments
           · 2 sources Droit officielles ajoutées, retrouvées grâce au
             détecteur en cascade du banc d'essai et vérifiées fraîches :
@@ -108,6 +158,15 @@
         .dark .dark\:bg-slate-900 { background-color: var(--ivory-dark) !important; }
         .dark .dark\:bg-slate-850 { background-color: var(--surf-1) !important; }
         .dark .dark\:bg-slate-800 { background-color: var(--surf-2) !important; }
+
+        /* Sous-ligne « N officielles » sous les chiffres du bandeau */
+        .sv-off { display:flex; align-items:center; justify-content:center; gap:3px; margin-top:3px;
+            font-size:10px; color:rgba(255,255,255,0.85); white-space:nowrap; }
+        /* Liens de l'en-tête (Topo, Carnet des veilleurs) */
+        .hd-lien { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600;
+            padding:5px 8px; border-radius:7px; color:var(--theme-color); background:var(--theme-light); white-space:nowrap; }
+        .hd-lien:hover { opacity:.85; }
+        .dark .hd-lien { color:#E6E7E9; background:rgba(255,255,255,0.08); }
 
         /* Espace Inspiration (cadre a onglets dans le bandeau) */
         .inspi-card { background: rgba(255,255,255,0.10); border-radius: 12px; margin-top: 14px; overflow: hidden; }
@@ -230,6 +289,31 @@
             color:rgba(255,255,255,0.5);
             letter-spacing:0.05em; text-transform:uppercase;
         }
+
+        /* ── Fiche réflexe : onglets de page ── */
+        .rfx-page-tab {
+            flex:1; padding:0.55rem 0.5rem;
+            font-size:0.7rem; font-weight:600;
+            color:#64748b; background:transparent;
+            border-bottom:2px solid transparent;
+            transition:color .15s, border-color .15s;
+        }
+        .rfx-page-tab:hover { color:#C0392B; }
+        .rfx-page-active {
+            color:#C0392B;
+            border-bottom-color:#C0392B;
+            background:#fff;
+        }
+        .dark .rfx-page-tab { color:#94a3b8; }
+        .dark .rfx-page-tab:hover,
+        .dark .rfx-page-active { color:#F1948A; border-bottom-color:#F1948A; }
+        .dark .rfx-page-active { background:#1e293b; }
+        /* Carte d'un numéro */
+        .rfx-num {
+            font-family:'Inter',sans-serif;
+            font-variant-numeric:tabular-nums;
+            letter-spacing:0.02em;
+        }
     </style>
 </head>
 <body class="text-slate-800 dark:bg-slate-900 dark:text-slate-200 h-screen flex overflow-hidden font-sans transition-colors duration-200 bg-ivory">
@@ -237,6 +321,26 @@
      Vide dans le fichier de travail ; rempli dans les copies destinées au partage.
      N'est lu qu'au tout premier lancement : il ne remplace jamais une configuration existante. -->
 <script id="seed-data" type="application/json">null</script>
+
+<!-- Icônes maison : bouclier « source officielle » et punaise « relevé ».
+     Dessinées ici pour suivre le thème et fonctionner hors connexion. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="sv-reflet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <clipPath id="sv-forme"><path d="M12 1.2 22 4.6V13c0 7-4.4 11.4-10 13.8C6.4 24.4 2 20 2 13V4.6Z"/></clipPath>
+  <symbol id="sv-officiel" viewBox="0 0 24 28">
+    <path d="M12 1.2 22 4.6V13c0 7-4.4 11.4-10 13.8C6.4 24.4 2 20 2 13V4.6Z" style="fill:var(--theme-light);stroke:var(--terracotta)" stroke-width="2" stroke-linejoin="round"/>
+    <path clip-path="url(#sv-forme)" d="M2 1 H13 L2 16Z" fill="url(#sv-reflet)"/>
+    <path style="fill:var(--theme-color)" d="M9.1 9.9 9.5 6.4 11.1 8.3Q12 8 12.9 8.3L14.5 6.4 14.9 9.9Q15.6 10.8 15.4 11.9 15 13.2 13.8 13.6 15.8 15.4 15.9 19.2 16 20.6 15.6 21.6H8.4Q8 20.6 8.1 19.2 8.2 15.4 10.2 13.6 9 13.2 8.6 11.9 8.4 10.8 9.1 9.9Z"/>
+    <path d="M15.4 21.4c2.2.2 3-1.6 2.2-3" fill="none" style="stroke:var(--theme-color)" stroke-width="1.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="sv-releve" viewBox="0 0 24 24">
+    <path fill="currentColor" fill-rule="evenodd" d="M12 1.8a7.4 7.4 0 0 0-7.4 7.4c0 5.5 7.4 13 7.4 13s7.4-7.5 7.4-13A7.4 7.4 0 0 0 12 1.8Zm0 4.4a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"/>
+  </symbol>
+  <symbol id="sv-releve-vide" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 2.8a6.4 6.4 0 0 0-6.4 6.4c0 4.8 6.4 11.6 6.4 11.6s6.4-6.8 6.4-11.6A6.4 6.4 0 0 0 12 2.8Z"/>
+    <circle cx="12" cy="9.2" r="2.4" fill="none" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+</defs></svg>
 
 <!-- Voile derrière la sidebar mobile -->
 <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-30 lg:hidden"></div>
@@ -284,8 +388,8 @@
         </li>
         <li id="menu-favorites" class="list-none flex items-center justify-between px-3 py-1.5 text-xs font-semibold rounded-lg cursor-pointer text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
             <div class="flex items-center gap-2">
-                <i class="fa-solid fa-star text-amber-400 w-4 text-center text-xs"></i>
-                <span>Mes Favoris</span>
+                <svg width="13" height="13" class="w-4 flex-shrink-0" style="color:var(--terracotta)" aria-hidden="true"><use href="#sv-releve"/></svg>
+                <span>Mes relevés de terrain</span>
             </div>
             <span id="fav-count" class="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded-full font-bold">0</span>
         </li>
@@ -356,10 +460,40 @@
                 <button id="btn-view-grid" class="p-1.5 rounded" title="Grille"><i class="fa-solid fa-th-large"></i></button>
                 <button id="btn-view-list" class="p-1.5 rounded ml-0.5" title="Liste"><i class="fa-solid fa-list"></i></button>
             </div>
+            <div id="header-liens" class="flex items-center gap-1.5 flex-shrink-0"></div>
         </div>
     </header>
     <div class="flex-1 overflow-y-auto p-3 sm:p-5" id="main-content"></div>
 </main>
+
+<!-- ═══ FICHE RÉFLEXE : NUMÉROS D'URGENCE ET D'ORIENTATION ═══ -->
+<!-- Onglet rouge, juste au-dessus de l'onglet du bloc-notes -->
+<button id="reflexe-tab" class="fixed right-0 z-40 text-white rounded-l-lg shadow-lg flex flex-col items-center gap-1.5 py-3 px-2 hover:px-3 transition-all"
+        style="top:calc(50% - 152px); background-color:#C0392B;"
+        title="Fiche réflexe : numéros d'urgence, d'écoute et d'orientation">
+    <i class="fa-solid fa-life-ring text-sm"></i>
+    <span class="text-[10px] font-semibold tracking-wide" style="writing-mode:vertical-rl;">RÉFLEXE</span>
+</button>
+
+<aside id="reflexe-panel" class="fixed right-0 top-0 h-full w-[400px] max-w-[92vw] z-50 bg-white dark:bg-slate-850 shadow-2xl border-l border-slate-200 dark:border-slate-700 flex flex-col translate-x-full transition-transform duration-300">
+    <div class="flex items-center justify-between px-4 py-3 flex-shrink-0" style="background-color:#C0392B;">
+        <h3 class="font-serif-display text-white text-sm font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-life-ring"></i> Fiche réflexe
+        </h3>
+        <button id="reflexe-close" class="text-white/70 hover:text-white" title="Fermer">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="flex flex-shrink-0 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        <button class="rfx-page-tab rfx-page-active" data-page="national">
+            <i class="fa-solid fa-flag text-[10px] mr-1"></i> National
+        </button>
+        <button class="rfx-page-tab" data-page="local">
+            <i class="fa-solid fa-location-dot text-[10px] mr-1"></i> Mon territoire
+        </button>
+    </div>
+    <div id="reflexe-body" class="flex-1 overflow-y-auto p-4"></div>
+</aside>
 
 <!-- ═══ BLOC-NOTES LATÉRAL ═══ -->
 <!-- Onglet toujours visible sur le bord droit -->
@@ -421,7 +555,7 @@
                 <div><label class="block font-semibold mb-1">Type</label>
                     <select id="sourceType" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white focus:outline-none text-sm">
                         <option value="rss">Flux RSS automatique</option>
-                        <option value="veille-site">Veille sur site (actualité vivante, accès direct)</option>
+                        <option value="veille-site">Reconnaissance (actualité vivante, à consulter sur le site)</option>
                         <option value="resource">Lien direct / Fiche Ressource</option>
                     </select></div>
                 <label class="flex items-start gap-2 cursor-pointer bg-slate-50 dark:bg-slate-900 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
@@ -438,6 +572,7 @@
                         <option value="outils_ft">🏢 France Travail &amp; Services</option>
                         <option value="outils_juridique">⚖️ Juridique &amp; Réglementaire</option>
                         <option value="outils_formation_res">🎓 Formation &amp; Orientation (Ressources)</option>
+                        <option value="outils_pedago">🧑‍🏫 Pédagogie &amp; Supports d'atelier</option>
                         <option value="outils_iae">🤝 IAE, ESS &amp; Handicap (Ressources)</option>
                         <option value="territorial">Veille Territoriale</option>
                     </select></div>
@@ -512,7 +647,19 @@ function getSafeLocalString(k,d){try{const v=localStorage.getItem(k);return(v&&v
 // Logo Super Veille (chat de dos, fond transparent) — réutilisé header + dashboard
 const LOGO_B64 = "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";
 
-const APP_VERSION = "2026.09-b — Assainissement";
+const APP_VERSION = "2026.10-b — Réflexe";
+
+// ── Liens de l'en-tête : laisser vide pour les masquer ──────────────
+// Le Topo : adresse du guide d'utilisation.
+// Adresse relative : déposez simplement le fichier du Topo à côté de index.html,
+// le lien fonctionnera sur GitHub Pages comme en local, sans rien changer ici.
+// Pour pointer ailleurs, remplacez par une adresse complète (https://...).
+const LIEN_TOPO = 'Le_Topo_SuperVeille.pdf';
+// Le carnet des veilleurs : adresse mail dédiée aux retours des utilisateurs [À REMPLIR]
+const ADRESSE_CARNET = '';
+
+// Règle du bouclier « source officielle », affichée au survol
+const REGLE_OFFICIEL = "Source officielle : institution publique, établissement public ou organisme chargé d'une mission de service public.";
 
 const REGIONAL_CATALOG = {
     "normandie":               {label:"Normandie",              sources:[
@@ -522,7 +669,7 @@ const REGIONAL_CATALOG = {
     ]},
     "nouvelle-aquitaine":      {label:"Nouvelle-Aquitaine",     sources:[
         {name:"DREETS Nouvelle-Aquitaine",     url:"https://nouvelle-aquitaine.dreets.gouv.fr/spip.php?page=backend",    type:"rss",note:"Actualités emploi/travail"},
-        {name:"Cap Métiers Nouvelle-Aquitaine",url:"https://www.cap-metiers.pro/rss/actualites.rss",                     type:"rss",note:"CARIF-OREF régional"},
+        {name:"Cap Métiers Nouvelle-Aquitaine",url:"https://pro.cap-metiers.fr/feed/",                                   type:"rss",note:"CARIF-OREF régional"},
         {name:"INSEE Nouvelle-Aquitaine", url:"https://www.insee.fr/fr/flux/12", type:"rss",note:"Publications régionales"},
     ]},
     "hauts-de-france":         {label:"Hauts-de-France",        sources:[
@@ -567,7 +714,7 @@ const REGIONAL_CATALOG = {
     ]},
     "bourgogne-franche-comte": {label:"Bourgogne-Franche-Comté",sources:[
         {name:"DREETS Bourgogne-FC",           url:"https://bourgogne-franche-comte.dreets.gouv.fr/spip.php?page=backend",type:"rss",note:"Actualités emploi/travail"},
-        {name:"Emfor Bourgogne-FC",            url:"https://www.emfor-bfc.org/rss.xml",                                  type:"rss",note:"CARIF-OREF"},
+        {name:"Emfor Bourgogne-FC",            url:"https://www.emfor-bfc.org/rss",                                      type:"rss",note:"CARIF-OREF"},
         {name:"INSEE Bourgogne-FC", url:"https://www.insee.fr/fr/statistiques/2011101?geo=REG-27", type:"resource",note:"Statistiques territoriales"},
     ]},
     "centre-val-de-loire":     {label:"Centre-Val de Loire",    sources:[
@@ -586,6 +733,7 @@ const TOOL_FOLDERS = [
     { id:"outils_ft",           label:"France Travail & Services",       icon:"fa-building-columns",   color:"bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300" },
     { id:"outils_juridique",    label:"Juridique & Réglementaire",       icon:"fa-scale-balanced",     color:"bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-300" },
     { id:"outils_formation_res",label:"Formation & Orientation",         icon:"fa-graduation-cap",     color:"bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300" },
+    { id:"outils_pedago",      label:"Pédagogie & Supports d'atelier",  icon:"fa-chalkboard-user",    color:"bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300" },
     { id:"outils_iae",          label:"IAE, ESS & Handicap",             icon:"fa-hands-holding-circle",color:"bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300" },
 ];
 
@@ -723,6 +871,18 @@ const defaultSources = [
      desc:"Office national d'information sur les enseignements et les professions. Fiches métiers, parcours de formation, ressources pédagogiques pour l'orientation scolaire et professionnelle."},
     {id:"t45",category:"outils_formation_res",type:"resource",officiel:true,name:"DARES (Données Emploi)",url:"https://dares.travail-emploi.gouv.fr",
      desc:"Direction des statistiques du ministère du Travail. Données de référence sur le marché du travail, les demandeurs d'emploi, l'apprentissage et les politiques d'emploi (séries longues, tableaux de bord)."},
+
+    // ── DOSSIER : Pédagogie & Supports d'atelier ─────────────────
+    // Limite assumée : on garde ici OÙ TROUVER DE LA MATIÈRE d'atelier.
+    // Les méthodes et la conception pédagogique restent dans La Boussole.
+    {id:"t60",category:"outils_pedago",type:"resource",officiel:true,name:"CLEMI (Éducation aux médias)", url:"https://www.clemi.fr",
+     desc:"Centre de liaison de l'enseignement et des médias d'information. Séquences, fiches et dossiers réutilisables en atelier : vérifier une information, repérer une offre d'emploi frauduleuse, décrypter les réseaux sociaux."},
+    {id:"t61",category:"outils_pedago",type:"resource",officiel:true,name:"Réseau Canopé",               url:"https://www.reseau-canope.fr",
+     desc:"Opérateur public de formation et de ressources. Banques de supports, trames d'animation et outils de médiation à adapter pour un public adulte en insertion."},
+    {id:"t62",category:"outils_pedago",type:"resource",officiel:true,name:"ANLCI (Compétences de base)",  url:"https://www.anlci.gouv.fr",
+     desc:"Agence nationale de lutte contre l'illettrisme. Ressourcerie, chiffres clés, 100 fiches départementales et Expo-Quiz. La source de référence pour l'illettrisme et l'illectronisme."},
+    {id:"t63",category:"outils_pedago",type:"resource",officiel:true,name:"Pix (Compétences numériques)",  url:"https://pix.fr",
+     desc:"Service public d'évaluation et de certification des compétences numériques. Directement mobilisable en atelier pour poser un diagnostic numérique avec la personne accompagnée."},
 
     // ── DOSSIER : IAE, ESS & Handicap (Ressources) ───────────────
     {id:"t50",category:"outils_iae",type:"resource",officiel:true,name:"Agefiph",                       url:"https://www.agefiph.fr",
@@ -1009,9 +1169,28 @@ function closeSidebarIfMobile(){
     if(window.innerWidth < 1024) closeSidebar();
 }
 
+// Liens de l'en-tête : n'apparaissent que si leur adresse est renseignée en haut du code
+function renderHeaderLiens(){
+    const zone=document.getElementById('header-liens');
+    if(!zone) return;
+    let html='';
+    if(LIEN_TOPO){
+        html+=`<a class="hd-lien" href="${LIEN_TOPO}" target="_blank" rel="noopener" title="Le Topo : guide d'utilisation"><i class="fa-solid fa-book-open"></i><span class="hidden sm:inline">Le Topo</span></a>`;
+    }
+    if(ADRESSE_CARNET){
+        const objet='Carnet des veilleurs : un mot sur SuperVeille';
+        const corps="Bonjour,\n\nVoici mon avis, ma remarque ou mon idée :\n\n\n\n(Merci de ne jamais inscrire ici d'information sur une personne accompagnée.)\n\nVersion : "+APP_VERSION;
+        const mail=`mailto:${ADRESSE_CARNET}?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(corps)}`;
+        html+=`<a class="hd-lien" href="${mail}" title="Le carnet des veilleurs : laisser un mot à l'auteur"><i class="fa-solid fa-feather"></i><span class="hidden sm:inline">Carnet des veilleurs</span></a>`;
+    }
+    zone.innerHTML=html;
+    zone.style.display=html?'':'none';
+}
+
 function initApp(){
     try{
         const av=document.getElementById('app-version'); if(av) av.textContent=APP_VERSION;
+        renderHeaderLiens();
         if(getSafeLocalString('cipv7_dark','false')==='true'){
             document.documentElement.classList.add('dark');
             const ic=document.getElementById('darkModeIcon');
@@ -1045,6 +1224,7 @@ function initApp(){
         bind('menu-digest',     loadDailyDigest);
         bind('menu-tags',       showAllTags);
         initNotes();
+        initReflexe();
         bind('btn-open-modal',  ()=>openModal());
         bind('btn-close-modal', closeModal);
         bind('btn-cancel-modal',closeModal);
@@ -1107,7 +1287,7 @@ function initApp(){
                 e.preventDefault();
                 if(loadedArticles.length>0){
                     toggleFavorite(loadedArticles[0]);
-                    showToast('Favori basculé sur le premier article visible.','info');
+                    showToast('Relevé ajouté ou retiré pour le premier article affiché.','info');
                 }
                 return;
             }
@@ -1280,7 +1460,7 @@ function renderSidebar(){
     container.innerHTML='';
 
     // ── BLOC 1 : FLUX RSS ───────────────────────────────
-    appendBlocHeader(container,'ACTUALITÉS — FLUX RSS','fa-rss');
+    appendBlocHeader(container,'VIGIES · FLUX RSS','fa-rss','Flux RSS : l\'actualité arrive dans SuperVeille');
 
     const rssGroups=[
         {id:'formation',title:'Formation & Dispositifs',  icon:'fa-graduation-cap'},
@@ -1296,14 +1476,14 @@ function renderSidebar(){
     // ── BLOC 1bis : VEILLE SUR SITE (sources vivantes mais à accès protégé) ──
     const veilleSiteSources=sources.filter(s=>s.type==='veille-site');
     if(veilleSiteSources.length>0){
-        appendBlocHeader(container,'VEILLE SUR SITE','fa-satellite-dish');
+        appendBlocHeader(container,'VIGIES · RECONNAISSANCE','fa-satellite-dish','Sources vivantes qui protègent leur lecture : on va les voir sur leur site');
         const ulV=document.createElement('ul'); ulV.className='space-y-0.5';
         veilleSiteSources.forEach(s=>appendSourceItem(ulV,s));
         container.appendChild(ulV);
     }
 
     // ── BLOC 2 : VEILLE TERRITORIALE ────────────────────
-    appendBlocHeader(container,'VEILLE TERRITORIALE','fa-map-location-dot');
+    appendBlocHeader(container,'TERRITOIRE','fa-map-location-dot','Vigies de vos régions');
 
     const tabsWrap=document.createElement('div');
     tabsWrap.className='px-2 mb-1';
@@ -1330,12 +1510,12 @@ function renderSidebar(){
     container.appendChild(ulT);
 
     // ── BLOC 3 : BOÎTE À OUTILS (dossiers thématiques) ──
-    appendBlocHeader(container,'BOÎTE À OUTILS DU CIP','fa-toolbox');
+    appendBlocHeader(container,'BALISES','fa-signs-post','Sites ressources, rangés par thème');
 
     // Raccourci dashboard
     const dashBtn=document.createElement('button');
     dashBtn.className='w-full text-xs text-theme flex items-center gap-1.5 px-3 py-1.5 mx-0 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold';
-    dashBtn.innerHTML='<i class="fa-solid fa-grip text-xs"></i> Tableau de bord outils';
+    dashBtn.innerHTML='<i class="fa-solid fa-grip text-xs"></i> Toutes les balises';
     dashBtn.addEventListener('click',showDashboard);
     container.appendChild(dashBtn);
 
@@ -1350,9 +1530,10 @@ function renderSidebar(){
     });
 }
 
-function appendBlocHeader(container,label,icon){
+function appendBlocHeader(container,label,icon,title){
     const h=document.createElement('div');
     h.className='bloc-header';
+    if(title) h.title=title;
     h.innerHTML=`<i class="fa-solid ${icon} mr-1.5"></i>${label}`;
     container.appendChild(h);
 }
@@ -1394,7 +1575,7 @@ function appendSourceItem(ul,src){
     const naturePicto = src.type==='veille-site' ? 'fa-satellite-dish text-terracotta'
                       : src.type==='resource'    ? 'fa-link text-amber-400'
                       : 'fa-rss text-slate-400';
-    const officielBadge = src.officiel ? '<i class="fa-solid fa-certificate text-[8px] flex-shrink-0" style="color:var(--theme-color);" title="Source officielle (institution publique)"></i>' : '';
+    const officielBadge = src.officiel ? '<svg width="12" height="14" class="flex-shrink-0" role="img" aria-label="Source officielle"><title>Source officielle (institution publique)</title><use href="#sv-officiel"/></svg>' : '';
     li.innerHTML=`
         <div class="flex items-center gap-2 truncate trigger-zone min-w-0 flex-1">
             <i class="fa-solid ${naturePicto} flex-shrink-0 text-[9px]"></i>
@@ -1430,8 +1611,11 @@ function showDashboard(){
     const h=now.getHours();
     const salut=h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
     const dateStr=now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    const totalRss=sources.filter(s=>s.type==='rss').length;
-    const totalRes=sources.filter(s=>s.type==='resource'&&s.category!=='territorial').length;
+    // Vigies : tout ce qui publie (flux RSS, y compris territoriaux, et reconnaissance)
+    const vigies=sources.filter(s=>s.type==='rss'||s.type==='veille-site');
+    // Balises : les sites ressources (hors territoire)
+    const balises=sources.filter(s=>s.type==='resource'&&s.category!=='territorial');
+    const offLigne=n=> n ? `<div class="sv-off" title="${REGLE_OFFICIEL}"><svg width="9" height="11" aria-hidden="true"><use href="#sv-officiel"/></svg>${n} officielle${n>1?'s':''}</div>` : '';
 
     mc.innerHTML=`
         <!-- Bandeau accueil -->
@@ -1440,7 +1624,7 @@ function showDashboard(){
                 <div class="flex-shrink-0">
                     <p class="text-xs mb-0.5 capitalize" style="color: rgba(255,255,255,0.55);">${dateStr}</p>
                     <h2 class="font-serif-display text-2xl font-medium mb-1">${salut} 👋</h2>
-                    <p class="text-xs leading-relaxed max-w-md" style="color: rgba(255,255,255,0.75);">Votre outil de veille CIP. Consultez vos flux RSS dans la sidebar ou explorez vos ressources ci-dessous par thème.</p>
+                    <p class="text-xs leading-relaxed max-w-md" style="color: rgba(255,255,255,0.75);">Votre outil de veille CIP. Suivez vos vigies dans le menu, ou explorez vos balises ci-dessous, par thème.</p>
                 </div>
                 <div class="hidden md:flex items-end gap-3 flex-shrink-0">
                     <img src="data:image/png;base64,${LOGO_B64}" alt="Super Veille" class="logo-chat logo-breathe" style="width:54px;height:104px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.25));">
@@ -1451,10 +1635,10 @@ function showDashboard(){
             </div>
             <div class="flex items-end gap-4 mt-4">
                 <div class="flex flex-wrap items-center gap-3 text-xs flex-1">
-                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);"><div class="font-serif-display text-base font-medium">${totalRss}</div><div style="color:rgba(255,255,255,0.55);">Flux RSS</div></div>
-                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);"><div class="font-serif-display text-base font-medium">${totalRes}</div><div style="color:rgba(255,255,255,0.55);">Ressources</div></div>
-                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);"><div class="font-serif-display text-base font-medium">${favorites.length}</div><div style="color:rgba(255,255,255,0.55);">Favoris</div></div>
-                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);"><div class="font-serif-display text-base font-medium">${territories.length}</div><div style="color:rgba(255,255,255,0.55);">Territoire(s)</div></div>
+                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);" title="Flux RSS &amp; sources de flux"><div class="font-serif-display text-base font-medium">${vigies.length}</div><div style="color:rgba(255,255,255,0.55);">Vigies</div>${offLigne(vigies.filter(s=>s.officiel).length)}</div>
+                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);" title="Sites ressources"><div class="font-serif-display text-base font-medium">${balises.length}</div><div style="color:rgba(255,255,255,0.55);">Balises</div>${offLigne(balises.filter(s=>s.officiel).length)}</div>
+                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);" title="Articles gardés comme trace de votre veille"><div class="font-serif-display text-base font-medium">${favorites.length}</div><div style="color:rgba(255,255,255,0.55);">Relevés</div></div>
+                    <div class="rounded-lg px-3 py-1.5 text-center" style="background:rgba(255,255,255,0.1);" title="Régions suivies"><div class="font-serif-display text-base font-medium">${territories.length}</div><div style="color:rgba(255,255,255,0.55);">Territoire(s)</div></div>
                     <button id="btn-digest-shortcut" class="flex items-center gap-2 px-3 py-1.5 rounded-lg font-semibold text-xs hover:opacity-90 transition-opacity" style="background-color:var(--terracotta); color:#fff;">
                         <i class="fa-solid fa-newspaper text-[11px]"></i> Lire la revue du jour
                     </button>
@@ -1489,7 +1673,7 @@ function showDashboard(){
         <!-- Barre de recherche dans les ressources -->
         <div class="relative mb-4">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-            <input type="text" id="res-search" placeholder="Rechercher dans toutes les ressources…"
+            <input type="text" id="res-search" placeholder="Rechercher dans toutes les balises…"
                    class="w-full pl-9 pr-9 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:border-theme">
             <button id="res-search-clear" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" title="Effacer"><i class="fa-solid fa-times text-xs"></i></button>
         </div>
@@ -1531,7 +1715,7 @@ function renderFolderContent(folderId){
     container.innerHTML='';
 
     if(folderSources.length===0){
-        container.innerHTML=`<div class="text-center py-10 text-slate-400 text-sm"><i class="fa-solid fa-box-open text-3xl mb-2 block"></i>Aucune ressource dans ce dossier.</div>`;
+        container.innerHTML=`<div class="text-center py-10 text-slate-400 text-sm"><i class="fa-solid fa-box-open text-3xl mb-2 block"></i>Aucune balise dans ce dossier.</div>`;
         return;
     }
 
@@ -1560,7 +1744,7 @@ function makeResourceCard(src){
                         :`<i class="fa-solid fa-globe text-slate-300 text-xs"></i>`}
                 </div>
                 <div class="min-w-0">
-                    <h4 class="font-bold text-xs text-slate-800 dark:text-slate-100 leading-tight line-clamp-2">${src.name}${src.officiel?' <i class="fa-solid fa-certificate text-[9px]" style="color:var(--theme-color);" title="Source officielle (institution publique)"></i>':''}</h4>
+                    <h4 class="font-bold text-xs text-slate-800 dark:text-slate-100 leading-tight line-clamp-2">${src.name}${src.officiel?' <svg width="12" height="14" style="display:inline;vertical-align:-2px" role="img" aria-label="Source officielle"><title>Source officielle (institution publique)</title><use href="#sv-officiel"/></svg>':''}</h4>
                     <p class="text-[10px] text-slate-400 font-mono truncate">${domain}</p>
                 </div>
                 <button class="btn-edit-card ml-auto text-slate-300 hover:text-blue-500 flex-shrink-0" title="Modifier"><i class="fa-solid fa-pen-to-square text-[10px]"></i></button>
@@ -1600,7 +1784,7 @@ function searchResources(query){
     }
     const header=document.createElement('p');
     header.className='text-xs text-slate-500 dark:text-slate-400 mb-3';
-    header.innerHTML=`<b>${results.length}</b> ressource(s) trouvée(s) pour « ${query} »`;
+    header.innerHTML=`<b>${results.length}</b> balise(s) trouvée(s) pour « ${query} »`;
     container.appendChild(header);
     const grid=document.createElement('div');
     grid.className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-10';
@@ -1786,12 +1970,12 @@ async function loadFeed(id){
                             </div>
                             <span class="absolute -bottom-1 -right-1 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow" style="${badgeColor}"><i class="fa-solid ${badgePicto}"></i></span>
                         </div>
-                        <h3 class="text-lg font-bold mb-0.5">${src.name}${src.officiel?' <i class="fa-solid fa-certificate text-[11px] align-middle" style="color:var(--theme-color);" title="Source officielle (institution publique)"></i>':''}</h3>
+                        <h3 class="text-lg font-bold mb-0.5">${src.name}${src.officiel?' <svg width="16" height="19" style="display:inline;vertical-align:-3px" role="img" aria-label="Source officielle"><title>Source officielle (institution publique)</title><use href="#sv-officiel"/></svg>':''}</h3>
                         <p class="text-xs text-slate-400 mb-3 font-mono">${domain}</p>
                         ${isVeilleSite?`
                         <div class="flex items-start gap-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2 text-xs text-amber-800 dark:text-amber-300 mb-3 text-left">
                             <i class="fa-solid fa-satellite-dish text-amber-500 mt-0.5 flex-shrink-0"></i>
-                            <span><b>Veille sur site.</b> Cette source publie une actualité vivante, mais protège sa lecture automatique (accès robot bloqué, ou navigateur requis). On ne l'agrège donc pas ici : on vous ouvre le site directement, à la source, dans les meilleures conditions.</span>
+                            <span><b>Reconnaissance.</b> Cette source publie une actualité vivante, mais protège sa lecture automatique (accès robot bloqué, ou navigateur requis). On ne l'agrège donc pas ici : partez en reconnaissance, le site s'ouvre directement, à la source.</span>
                         </div>`:'<hr class="border-slate-100 dark:border-slate-700 mb-3">'}
                         <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-5 text-left">${desc}</p>
                         <a href="${src.url}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 text-white rounded-xl font-semibold text-sm hover:opacity-90 shadow-md ${isVeilleSite?'':'bg-theme'}" style="${isVeilleSite?'background-color:var(--terracotta);':''}">
@@ -2404,6 +2588,218 @@ function showAllTags(){
 }
 
 // ═══════════════════════════════════════════
+// 13c-bis. FICHE RÉFLEXE
+//   Page 1 : numéros nationaux (figés, vérifiés)
+//   Page 2 : « Mon territoire », rempli par la personne elle-même
+// ═══════════════════════════════════════════
+const FICHE_REFLEXE = [
+  { bloc:"Danger immédiat", urgent:true, aide:"À composer sans attendre si une vie est en jeu.", items:[
+    { num:"15",  nom:"SAMU",                  det:"Urgence médicale" },
+    { num:"17",  nom:"Police secours",        det:"Danger, violences en cours" },
+    { num:"18",  nom:"Sapeurs-pompiers",      det:"Secours, incendie, accident" },
+    { num:"112", nom:"Urgence européenne",    det:"Depuis toute l'Europe" },
+    { num:"114", nom:"Urgence par SMS",       det:"Personnes sourdes, malentendantes ou aphasiques", sms:true },
+  ]},
+  { bloc:"Précarité et hébergement", items:[
+    { num:"115", nom:"Hébergement d'urgence", det:"SAMU social · gratuit, 24h/24" },
+  ]},
+  { bloc:"Détresse psychique", items:[
+    { num:"3114", nom:"Prévention du suicide", det:"Gratuit, confidentiel, 24h/24 et 7j/7. Répond aussi aux professionnels : conseils et orientation." },
+  ]},
+  { bloc:"Violences et protection", items:[
+    { num:"119",    nom:"Enfance en danger",                det:"Jusqu'à 21 ans · gratuit, 24h/24" },
+    { num:"3919",   nom:"Violences conjugales",              det:"Gratuit et anonyme, 24h/24" },
+    { num:"3133",   nom:"Maltraitance adultes vulnérables",  det:"Personnes âgées et en situation de handicap. Remplace le 3977 depuis mars 2026.", neuf:true },
+    { num:"3018",   nom:"Harcèlement et cyberharcèlement",   det:"Jeunes · gratuit" },
+    { num:"116006", nom:"Aide aux victimes",                 det:"Écoute et orientation", aff:"116 006" },
+  ]},
+  { bloc:"Addictions", items:[
+    { num:"0800231313", nom:"Drogues info service", det:"Gratuit, anonyme",            aff:"0 800 23 13 13" },
+    { num:"0980980930", nom:"Alcool info service",  det:"Anonyme, 7j/7",               aff:"09 80 98 09 30" },
+    { num:"3989",       nom:"Tabac info service",   det:"Lundi au samedi, 8h-20h" },
+  ]},
+  { bloc:"Droits et discriminations", items:[
+    { num:"3928", nom:"Antidiscriminations",  det:"Défenseur des droits · juristes, lundi au vendredi 9h30-19h" },
+    { num:"3939", nom:"Allô Service Public",  det:"Renseignement administratif" },
+  ]},
+  { bloc:"Santé", items:[
+    { num:"0800840800", nom:"Sida info service",                 det:"Gratuit, 7j/7 de 8h à 23h", aff:"0 800 840 800" },
+    { num:"0800845800", nom:"Hépatites info service",             det:"Gratuit, 7j/7",             aff:"0 800 845 800" },
+    { num:"0800081111", nom:"Sexualités, contraception, IVG",     det:"Gratuit, anonyme",          aff:"0 800 08 11 11" },
+  ]},
+  { bloc:"Jeunes et étudiants", items:[
+    { num:"3040",       nom:"Étudiants en détresse",       det:"Écoute et orientation · lundi au vendredi 10h-21h, samedi 10h-14h" },
+    { num:"0806000278", nom:"Aides et démarches Crous",    det:"Bourses, logement étudiant", aff:"0 806 000 278" },
+  ]},
+  { bloc:"Accès aux droits sociaux", items:[
+    { num:"3230", nom:"CAF",                det:"Lundi au vendredi, 9h-16h30" },
+    { num:"3646", nom:"Assurance Maladie",  det:"Lundi au vendredi, 8h30-17h30" },
+  ]},
+];
+
+let reflexePage  = 'national';
+let reflexeLocal = getSafeLocalData('cipv7_reflexe_local', []);
+
+function rfxEsc(t){
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function saveReflexeLocal(){
+    try{ localStorage.setItem('cipv7_reflexe_local', JSON.stringify(reflexeLocal)); }catch(e){}
+}
+
+// Carte d'un numéro national
+function rfxCarte(it){
+    const aff  = it.aff || it.num;
+    const href = it.sms ? ('sms:'+it.num) : ('tel:'+it.num);
+    const pico = it.sms ? 'fa-comment-sms' : 'fa-phone';
+    const neuf = it.neuf ? '<span class="ml-1.5 text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">nouveau</span>' : '';
+    return `<a href="${href}" class="block rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2.5 mb-2 hover:border-[#C0392B] hover:bg-red-50/40 dark:hover:bg-red-900/10 transition-colors">
+        <div class="flex items-baseline gap-2.5">
+            <span class="rfx-num text-base font-bold" style="color:#C0392B;">${aff}</span>
+            <span class="text-xs font-semibold text-slate-700 dark:text-slate-200 leading-tight">${it.nom}${neuf}</span>
+        </div>
+        <div class="flex items-start gap-1.5 mt-1">
+            <i class="fa-solid ${pico} text-[9px] text-slate-400 mt-[3px]"></i>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">${it.det}</span>
+        </div>
+    </a>`;
+}
+
+function renderReflexeBody(){
+    const body = document.getElementById('reflexe-body');
+    if(!body) return;
+
+    if(reflexePage === 'national'){
+        let h = `<p class="text-[11px] text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+            Numéros nationaux d'urgence, d'écoute et d'orientation. Sur téléphone, un appui sur le numéro lance l'appel.
+        </p>`;
+        FICHE_REFLEXE.forEach(g=>{
+            h += `<div class="mb-4">
+                <h4 class="text-[11px] font-bold uppercase tracking-wider mb-2 ${g.urgent?'':'text-slate-400 dark:text-slate-500'}" ${g.urgent?'style="color:#C0392B;"':''}>
+                    ${g.urgent?'<i class="fa-solid fa-triangle-exclamation mr-1"></i>':''}${g.bloc}
+                </h4>`;
+            if(g.aide) h += `<p class="text-[10px] italic text-slate-500 dark:text-slate-400 mb-2">${g.aide}</p>`;
+            g.items.forEach(it=>{ h += rfxCarte(it); });
+            h += `</div>`;
+        });
+        h += `<p class="text-[10px] text-slate-400 dark:text-slate-500 border-t border-slate-200 dark:border-slate-700 pt-3 mt-2 leading-relaxed">
+            Fiche de repère pour le professionnel : elle ne remplace ni un diagnostic ni l'orientation vers un partenaire du territoire.
+        </p>`;
+        body.innerHTML = h;
+        return;
+    }
+
+    // ── Page « Mon territoire » ──
+    let h = `<p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+        Vos contacts de proximité : CCAS, Mission Locale, CMP, épicerie solidaire, référent RSA, permanence juridique, service social de secteur…
+    </p>
+    <p class="text-[10px] mb-4 px-2.5 py-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 leading-snug">
+        <i class="fa-solid fa-circle-info mr-1"></i>
+        N'inscrivez ici que des ressources, jamais d'information sur une personne accompagnée.
+    </p>`;
+
+    if(reflexeLocal.length === 0){
+        h += `<p class="text-[11px] text-slate-400 dark:text-slate-500 italic mb-4">Aucun contact enregistré pour le moment.</p>`;
+    }else{
+        reflexeLocal.forEach((l,i)=>{
+            const tel = l.num ? `<a href="tel:${String(l.num).replace(/[^0-9+]/g,'')}" class="rfx-num text-sm font-bold" style="color:#C0392B;">${l.num}</a>` : '';
+            h += `<div class="rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2.5 mb-2">
+                <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                        <div class="text-xs font-semibold text-slate-700 dark:text-slate-200 leading-tight">${rfxEsc(l.nom||'')}</div>
+                        ${tel}
+                        ${l.note?`<div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug">${rfxEsc(l.note)}</div>`:''}
+                    </div>
+                    <button data-sup="${i}" class="text-slate-300 hover:text-red-500 flex-shrink-0" title="Supprimer ce contact">
+                        <i class="fa-solid fa-trash-can text-[11px]"></i>
+                    </button>
+                </div>
+            </div>`;
+        });
+    }
+
+    h += `<div class="border-t border-slate-200 dark:border-slate-700 pt-3 mt-3">
+        <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Ajouter un contact</h4>
+        <input id="rfx-nom"  type="text" placeholder="Nom du service"            class="w-full mb-1.5 px-2.5 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white focus:outline-none">
+        <input id="rfx-num"  type="text" placeholder="Téléphone"                 class="w-full mb-1.5 px-2.5 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white focus:outline-none">
+        <input id="rfx-note" type="text" placeholder="Horaires, adresse, repère" class="w-full mb-2 px-2.5 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white focus:outline-none">
+        <button id="rfx-ajout" class="w-full py-1.5 rounded-lg text-white text-xs font-semibold" style="background-color:#C0392B;">
+            <i class="fa-solid fa-plus mr-1"></i> Ajouter
+        </button>
+    </div>`;
+    body.innerHTML = h;
+
+    const ajout = document.getElementById('rfx-ajout');
+    if(ajout) ajout.addEventListener('click',()=>{
+        const nom  = (document.getElementById('rfx-nom').value||'').trim();
+        const num  = (document.getElementById('rfx-num').value||'').trim();
+        const note = (document.getElementById('rfx-note').value||'').trim();
+        if(!nom){ showToast('Indiquez au moins le nom du service.','info'); return; }
+        reflexeLocal.push({nom,num,note});
+        saveReflexeLocal();
+        renderReflexeBody();
+        showToast('Contact ajouté à votre territoire.','success');
+    });
+    body.querySelectorAll('[data-sup]').forEach(b=>{
+        b.addEventListener('click',()=>{
+            reflexeLocal.splice(parseInt(b.dataset.sup,10),1);
+            saveReflexeLocal();
+            renderReflexeBody();
+        });
+    });
+}
+
+function openReflexe(){
+    const panel = document.getElementById('reflexe-panel');
+    if(!panel) return;
+    // On ne garde qu'un panneau ouvert à la fois
+    const notes = document.getElementById('notes-panel');
+    if(notes) notes.classList.add('translate-x-full');
+    renderReflexeBody();
+    panel.classList.remove('translate-x-full');
+    const rt = document.getElementById('reflexe-tab');
+    const nt = document.getElementById('notes-tab');
+    if(rt) rt.style.display='none';
+    if(nt) nt.style.display='none';
+}
+
+function closeReflexe(){
+    const panel = document.getElementById('reflexe-panel');
+    if(!panel) return;
+    panel.classList.add('translate-x-full');
+    const rt = document.getElementById('reflexe-tab');
+    const nt = document.getElementById('notes-tab');
+    if(rt) rt.style.display='';
+    if(nt) nt.style.display='';
+}
+
+function initReflexe(){
+    const tab   = document.getElementById('reflexe-tab');
+    const close = document.getElementById('reflexe-close');
+    const panel = document.getElementById('reflexe-panel');
+    if(!panel) return;
+
+    if(tab)   tab.addEventListener('click',openReflexe);
+    if(close) close.addEventListener('click',closeReflexe);
+
+    document.querySelectorAll('.rfx-page-tab').forEach(b=>{
+        b.addEventListener('click',()=>{
+            reflexePage = b.dataset.page;
+            document.querySelectorAll('.rfx-page-tab').forEach(x=>x.classList.remove('rfx-page-active'));
+            b.classList.add('rfx-page-active');
+            renderReflexeBody();
+        });
+    });
+
+    document.addEventListener('keydown',e=>{
+        if(e.key==='Escape' && !panel.classList.contains('translate-x-full')) closeReflexe();
+    });
+
+    renderReflexeBody();
+}
+
+// ═══════════════════════════════════════════
 // 13d. BLOC-NOTES LATÉRAL PERSISTANT
 // ═══════════════════════════════════════════
 let notesSaveTimer=null;
@@ -2501,11 +2897,11 @@ function renderArticles(list){
             </label>
             ${inDigestView?`
             <button id="btn-officiel-filter" class="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border transition-colors ${officielOnly?'text-white border-transparent':'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-theme'}" style="${officielOnly?'background-color:var(--theme-color);':''}" title="N'afficher que les sources officielles (institutions publiques)">
-                <i class="fa-solid fa-certificate text-[10px]"></i> Officiels ${officielOnly?'✓':`(${officialCount})`}
+                <svg width="11" height="13" style="display:inline;vertical-align:-2px" role="img" aria-label="Source officielle"><title>Source officielle (institution publique)</title><use href="#sv-officiel"/></svg> Officiels ${officielOnly?'✓':`(${officialCount})`}
             </button>`:''}
         </div>
-        <button id="btn-export-pdf-selection" class="hidden text-xs font-semibold px-3 py-1.5 rounded-lg bg-theme text-white flex items-center gap-1.5">
-            <i class="fa-solid fa-file-pdf text-[11px]"></i> Exporter <span id="pdf-sel-count">0</span> article(s) en PDF
+        <button id="btn-export-pdf-selection" class="hidden text-xs font-semibold px-3 py-1.5 rounded-lg bg-theme text-white flex items-center gap-1.5" title="La trace : le rapport PDF de votre sélection d'articles">
+            <i class="fa-solid fa-file-pdf text-[11px]"></i> La trace · <span id="pdf-sel-count">0</span> article(s)
         </button>`;
     c.appendChild(actionBar);
 
@@ -2519,7 +2915,7 @@ function renderArticles(list){
         const empty=document.createElement('div');
         empty.className='text-center py-12 text-slate-400 text-sm';
         empty.innerHTML = (inDigestView&&officielOnly)
-            ? `<i class="fa-solid fa-certificate text-3xl mb-2 block"></i>Aucun article de source officielle pour le moment.`
+            ? `<svg width="36" height="42" style="display:block;margin:0 auto 8px" aria-hidden="true"><use href="#sv-officiel"/></svg>Aucun article de source officielle pour le moment.`
             : `<i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>Aucun article.`;
         c.appendChild(empty);
         return;
@@ -2555,7 +2951,7 @@ function renderArticles(list){
                 </h4>
                 ${viewMode==='grid'?`<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-2">${textDesc}</p>`:''}
                 <div class="comment-zone hidden mt-1 mb-2">
-                    <textarea class="comment-input w-full text-xs px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 dark:text-slate-200 resize-none focus:outline-none focus:ring-1" style="--tw-ring-color:var(--terracotta);" rows="2" placeholder="Votre commentaire / analyse pour le rapport PDF (facultatif)...">${(articleComments[art.id]||'').replace(/"/g,'&quot;')}</textarea>
+                    <textarea class="comment-input w-full text-xs px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 dark:text-slate-200 resize-none focus:outline-none focus:ring-1" style="--tw-ring-color:var(--terracotta);" rows="2" placeholder="Votre commentaire / analyse, repris dans La trace (facultatif)...">${(articleComments[art.id]||'').replace(/"/g,'&quot;')}</textarea>
                 </div>
                 <div class="tag-zone flex flex-wrap items-center gap-1 mb-2"></div>
             </div>
@@ -2568,7 +2964,7 @@ function renderArticles(list){
                         <i class="fa-solid ${isRead?'fa-rotate-left':'fa-circle-check'} text-sm"></i>
                     </button>
                     <button class="btn-fav text-slate-400 hover:text-amber-500 p-1">
-                        <i class="fa-${isFav?'solid text-amber-500':'regular'} fa-star text-sm"></i>
+                        <svg width="15" height="15" style="color:${isFav?'var(--terracotta)':'currentColor'}" aria-label="${isFav?'Retirer de mes relevés':'Garder dans mes relevés'}"><title>${isFav?'Retirer de mes relevés':'Garder dans mes relevés'}</title><use href="#${isFav?'sv-releve':'sv-releve-vide'}"/></svg>
                     </button>
                 </div>
             </div>`;
@@ -2621,7 +3017,7 @@ function loadFavorites(){
     const mf=document.getElementById('menu-favorites');
     if(mf) mf.classList.add('active-item');
     const cft=document.getElementById('current-feed-title');
-    if(cft) cft.textContent='Mes Favoris';
+    if(cft) cft.textContent='Mes relevés de terrain';
     const fl=document.getElementById('feed-link');
     if(fl) fl.classList.add('hidden');
     const sb=document.getElementById('search-bar');
@@ -2693,7 +3089,7 @@ function toggleRead(artId){
 }
 
 // ═══════════════════════════════════════════
-// 15b. EXPORT PDF D'UNE SÉLECTION D'ARTICLES — Rapport de veille structuré
+// 15b. LA TRACE — rapport PDF d'une sélection d'articles
 // ═══════════════════════════════════════════
 const PDF_THEME_LABELS = {
     formation:   { label:'Formation & Dispositifs',   icon:'🎓' },
@@ -2754,12 +3150,13 @@ function exportArticlesToPdf(allArticles){
     const printWindow=window.open('','_blank');
     printWindow.document.write(`
         <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
-        <title>Rapport de veille — ${dateStr}</title>
+        <title>La trace — ${dateStr}</title>
         <style>
             body{ font-family: Georgia, 'Times New Roman', serif; max-width:720px; margin:40px auto; color:#1a1a1a; }
             .cover{ border-bottom:4px solid #1E3A5F; padding-bottom:20px; margin-bottom:30px; }
             .cover h1{ font-size:24px; color:#1E3A5F; margin:0 0 4px; }
             .cover p{ font-size:12px; color:#888; margin:0 0 2px; text-transform:capitalize; }
+            .cover p.sous{ font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#8A8578; margin-bottom:6px; }
             .toc{ background:#f7f4ed; border-radius:8px; padding:16px 18px; margin-bottom:30px; }
             .toc-title{ font-size:11px; font-weight:bold; text-transform:uppercase; letter-spacing:0.05em; color:#8A8578; margin-bottom:8px; }
             .notice{ font-size:10px; color:#999; margin-bottom:24px; line-height:1.5; }
@@ -2768,7 +3165,8 @@ function exportArticlesToPdf(allArticles){
         </style>
         </head><body>
         <div class="cover">
-            <h1>Rapport de veille professionnelle</h1>
+            <h1>La trace</h1>
+            <p class="sous">Rapport de veille professionnelle</p>
             <p>${dateStr}</p>
             <p>${selected.length} article(s) sélectionné(s) · ${orderedCats.length} thème(s)</p>
         </div>
@@ -2783,7 +3181,7 @@ function exportArticlesToPdf(allArticles){
     `);
     printWindow.document.close();
     setTimeout(()=>printWindow.print(), 400);
-    showToast(`Rapport de ${selected.length} article(s) prêt — utilisez "Enregistrer en PDF" dans la fenêtre d'impression.`,'success');
+    showToast(`La trace est prête : ${selected.length} article(s). Utilisez "Enregistrer en PDF" dans la fenêtre d'impression.`,'success');
 }
 
 // ═══════════════════════════════════════════
@@ -2892,58 +3290,97 @@ async function detectFeed(){
     if(!siteUrl){ showDetectStatus('Entrez d\'abord l\'adresse d\'un site.', 'error'); return; }
     if(!/^https?:\/\//i.test(siteUrl)) siteUrl='https://'+siteUrl;
 
-    showDetectStatus('<i class="fa-solid fa-circle-notch fa-spin"></i> Recherche du flux en cours...', 'info');
+    const attente=msg=>showDetectStatus('<i class="fa-solid fa-circle-notch fa-spin"></i> '+msg, 'info');
+    attente('Lecture de la page du site…');
     try{
-        // Étape 1 : lire le HTML de la page et chercher les balises <link> de flux
-        let found=[];
-        try{
-            const html=await fetchPageHtml(siteUrl);
-            found=findFeedLinks(html, siteUrl);
-        }catch(e){ /* on tentera les URL classiques ci-dessous */ }
-
-        // Étape 2 : si rien trouvé, tester les chemins de flux courants
-        if(found.length===0){
-            showDetectStatus('<i class="fa-solid fa-circle-notch fa-spin"></i> Test des adresses de flux courantes...', 'info');
-            found=await probeCommonFeeds(siteUrl);
-        }
-
-        if(found.length===0){
-            showDetectStatus("Aucun flux RSS détecté. Le site n'en propose peut-être pas, ou pas à une adresse standard. Essayez de coller directement l'URL du flux.", 'error');
+        const res=await detecterFluxCascade(siteUrl, attente);
+        if(res.flux.length===0){
+            showDetectStatus("Aucun flux trouvé, même en testant les adresses courantes. Le site n'en propose peut-être pas : ajoutez-le plutôt en Reconnaissance ou en Balise.", 'error');
             return;
         }
-        // Prend le premier flux trouvé
-        urlInput.value=found[0];
-        showDetectStatus(`✓ Flux détecté ! ${found.length>1?'('+found.length+' trouvés, le 1er est pré-rempli)':''} Vérifiez puis enregistrez.`, 'success');
+        urlInput.value=res.flux[0];
+        const typeSel=document.getElementById('sourceType'); if(typeSel) typeSel.value='rss';
+        const plus=res.flux.length>1 ? ` ${res.flux.length} candidats trouvés, le 1er est pré-rempli.` : '';
+        showDetectStatus(`✓ Flux trouvé : ${NIVEAUX_DETECTION[res.niveau]}.${plus} Vérifiez puis enregistrez.`, res.niveau==='n3'?'info':'success');
     }catch(e){
-        showDetectStatus("Impossible d'analyser ce site (relais indisponible ou site protégé). Essayez de coller directement l'URL du flux RSS.", 'error');
+        showDetectStatus("Impossible d'analyser ce site (relais indisponible ou site protégé). Essayez de coller directement l'adresse du flux.", 'error');
     }
 }
 
-// Teste les chemins de flux les plus courants et garde ceux qui renvoient du vrai XML
-async function probeCommonFeeds(siteUrl){
-    // Construit la racine du site (protocole + domaine)
-    let root;
-    try{ const u=new URL(siteUrl); root=u.origin; }catch(e){ root=siteUrl.replace(/\/+$/,''); }
-    const base=siteUrl.replace(/\/+$/,'');
-    // Candidats : d'abord relatifs à l'URL donnée, puis à la racine du domaine
-    const paths=['/feed','/feed/','/rss','/rss/','/rss.xml','/feed.xml','/atom.xml','/feed/rss','/index.xml','/flux-rss','/?feed=rss2'];
-    const candidates=[];
-    paths.forEach(p=>{ candidates.push(base+p); if(root!==base) candidates.push(root+p); });
-    // Déduplique en gardant l'ordre
-    const seen=new Set(); const uniq=candidates.filter(u=>{ if(seen.has(u))return false; seen.add(u); return true; });
+// ═══════════════════════════════════════════
+// DÉTECTEUR DE FLUX EN CASCADE (repris du banc d'essai 2026.09-a)
+// Chaque niveau ne s'active que si le précédent n'a rien donné ;
+// un candidat n'est retenu que s'il renvoie vraiment du XML de flux.
+// ═══════════════════════════════════════════
+const CHEMINS_FLUX_COURANTS=['/feed','/feed/','/rss','/rss/','/rss.xml','/feed.xml','/atom.xml','/index.xml',
+    '/flux-rss','/?feed=rss2','/spip.php?page=backend','/backend','/actualites.xml','/actualites/feed/'];
+const NIVEAUX_DETECTION={
+    auto:"l'adresse donnée est déjà un flux",
+    n1:'flux déclaré par le site',
+    n2:'trouvé en testant les adresses courantes',
+    n3:'repéré dans un lien de la page, à vérifier',
+};
+function pageEstUnFlux(t){ return /<rss[\s>]|<feed[\s>]|<rdf:RDF|<channel[\s>]/i.test((t||'').slice(0,2000)); }
 
-    const valid=[];
-    for(const url of uniq){
-        try{
-            const xml=await fetchPageHtml(url);   // réutilise les relais
-            // Vérifie que ça ressemble à un flux : présence de <rss, <feed ou <channel
-            if(/<rss[\s>]|<feed[\s>]|<channel[\s>]/i.test(xml)){
-                valid.push(url);
-                if(valid.length>=3) break;   // on s'arrête à 3 trouvailles
-            }
-        }catch(e){ /* candidat suivant */ }
+// Niveau 1 : les flux que le site déclare (rss, atom, rdf, et rel="feed" de HTML5)
+function fluxDeclares(doc, base){
+    const sel=['link[rel="alternate"][type*="rss"]','link[rel="alternate"][type*="atom"]','link[rel="alternate"][type*="xml"]',
+        'link[type="application/rss+xml"]','link[type="application/atom+xml"]','link[type="application/rdf+xml"]','link[rel="feed"]'].join(', ');
+    const f=[];
+    doc.querySelectorAll(sel).forEach(l=>{ const h=l.getAttribute('href'); if(h) f.push(absolutize(h, base)); });
+    return [...new Set(f)];
+}
+// Niveau 2 : les adresses de flux courantes, testées cinq à la fois ;
+// on s'arrête dès qu'un flux est trouvé (le formulaire doit rester rapide)
+async function fluxParChemins(base, etape){
+    let racine; try{ racine=new URL(base).origin; }catch(e){ racine=base.replace(/\/+$/,''); }
+    const socle=base.replace(/\/+$/,'');
+    const vus=new Set(), candidats=[];
+    CHEMINS_FLUX_COURANTS.forEach(p=>[socle+p, racine+p].forEach(u=>{ if(!vus.has(u)){ vus.add(u); candidats.push(u); } }));
+    const valides=[];
+    let suivant=0, faits=0, trouve=false;
+    const ouvrier=async()=>{
+        while(!trouve && suivant<candidats.length){
+            const u=candidats[suivant++];
+            try{
+                const t=await fetchPageHtml(u, 5000);
+                if(pageEstUnFlux(t)){ valides.push(u); trouve=true; }
+            }catch(e){ /* candidat suivant */ }
+            faits++;
+            if(etape && !trouve) etape(`Test des adresses de flux courantes : ${faits}/${candidats.length}`);
+        }
+    };
+    await Promise.all(Array.from({length:5}, ouvrier));
+    // Garder l'ordre de préférence de la liste
+    return valides.sort((a,b)=>candidats.indexOf(a)-candidats.indexOf(b));
+}
+// Niveau 3 : liens de la page qui ressemblent à des flux (dernier recours)
+function fluxParLiens(doc, base){
+    const f=[];
+    doc.querySelectorAll('a[href]').forEach(a=>{
+        const h=a.getAttribute('href')||'';
+        if(/\/feed\/?$|\/rss|\.rss$|\.atom$|rss\.xml|feed\.xml|flux-rss|page=backend/i.test(h)) f.push(absolutize(h, base));
+    });
+    return [...new Set(f)];
+}
+// La cascade complète. Si la page d'accueil est illisible, on tente quand même les adresses courantes.
+async function detecterFluxCascade(url, etape){
+    let doc=null;
+    try{
+        const html=await fetchPageHtml(url);
+        if(pageEstUnFlux(html)) return { flux:[url], niveau:'auto' };
+        doc=new DOMParser().parseFromString(html, 'text/html');
+        const f1=fluxDeclares(doc, url);
+        if(f1.length) return { flux:f1.slice(0,8), niveau:'n1' };
+    }catch(e){ /* page illisible : on passe au niveau 2 */ }
+    if(etape) etape('Test des adresses de flux courantes…');
+    const f2=await fluxParChemins(url, etape);
+    if(f2.length) return { flux:f2, niveau:'n2' };
+    if(doc){
+        const f3=fluxParLiens(doc, url);
+        if(f3.length) return { flux:f3.slice(0,8), niveau:'n3' };
     }
-    return valid;
+    return { flux:[], niveau:null };
 }
 function showDetectStatus(msg, kind){
     const status=document.getElementById('detect-status');
@@ -2953,42 +3390,22 @@ function showDetectStatus(msg, kind){
     status.innerHTML=msg;
     status.classList.remove('hidden');
 }
-// Récupère le HTML d'une page via les relais (réutilise la logique des flux)
-async function fetchPageHtml(url){
-    const relays=[
-        u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u),
-        u=>'https://api.codetabs.com/v1/proxy/?quest='+encodeURIComponent(u),
-    ];
-    for(const build of relays){
+// Sites refusés par le relais personnel (hors de sa liste blanche) : on ne le lui redemande plus
+const HOTES_HORS_RELAIS=new Set();
+// Récupère une page via les relais : relais personnel d'abord, allorigins en secours
+async function fetchPageHtml(url, delai){
+    let hote=''; try{ hote=new URL(url).hostname; }catch(e){}
+    const voies=[];
+    if(!HOTES_HORS_RELAIS.has(hote)) voies.push({ perso:true, build:u=>CLOUDFLARE_RELAY+encodeURIComponent(u) });
+    voies.push({ perso:false, build:u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u) });
+    for(const v of voies){
         try{
-            const res=await fetchWithTimeout(build(url), 7000);
+            const res=await fetchWithTimeout(v.build(url), delai||7000);
+            if(v.perso && res.status===403){ HOTES_HORS_RELAIS.add(hote); continue; }
             if(res.ok){ const t=await res.text(); if(t&&t.length>50) return t; }
         }catch(e){ /* relais suivant */ }
     }
     throw new Error('Aucun relais disponible');
-}
-// Cherche les déclarations de flux RSS/Atom dans le HTML d'une page
-function findFeedLinks(html, baseUrl){
-    const feeds=[];
-    try{
-        const doc=new DOMParser().parseFromString(html, 'text/html');
-        // 1. Balises <link rel="alternate" type="application/rss+xml" href="...">
-        doc.querySelectorAll('link[type*="rss"], link[type*="atom"], link[rel="alternate"][type*="xml"]').forEach(l=>{
-            const href=l.getAttribute('href');
-            if(href) feeds.push(absolutize(href, baseUrl));
-        });
-        // 2. Liens <a> contenant /feed, /rss, .xml (filet de secours)
-        if(feeds.length===0){
-            doc.querySelectorAll('a[href]').forEach(a=>{
-                const href=a.getAttribute('href')||'';
-                if(/\/feed\/?$|\/rss|\.rss$|\.atom$|rss\.xml|feed\.xml/i.test(href)){
-                    feeds.push(absolutize(href, baseUrl));
-                }
-            });
-        }
-    }catch(e){}
-    // Dédoublonne
-    return [...new Set(feeds)];
 }
 // Transforme une URL relative en absolue
 function absolutize(href, baseUrl){
